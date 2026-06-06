@@ -173,6 +173,8 @@ section{position:relative;z-index:2}
 /* ── CERTS ── */
 #certifications{background:var(--bg2)}
 .certs-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+/* Centre lone last card in a 3-col grid */
+.certs-gallery > .cg:last-child:nth-child(3n+1){grid-column:2}
 
 /* Card shell */
 .cg{background:var(--bg);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;
@@ -198,13 +200,11 @@ section{position:relative;z-index:2}
 .cg-img-wrap .cert-placeholder .cp-lbl{font-family:var(--mono);font-size:10px;color:var(--t4);letter-spacing:2px;text-transform:uppercase}
 
 /* Hover overlay */
-.cg-overlay{position:absolute;inset:0;background:rgba(6,8,15,.72);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;
+.cg-overlay{position:absolute;inset:0;background:rgba(6,8,15,.68);display:flex;align-items:center;justify-content:center;
     opacity:0;transition:opacity .28s;pointer-events:none}
 .cg:hover .cg-overlay{opacity:1;pointer-events:all}
-.cg-view{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:10px 24px;background:var(--acc);color:#fff;border-radius:3px;text-decoration:none;transition:background .2s;border:none;cursor:pointer}
-.cg-view:hover{background:var(--acc2)}
-.cg-cert-dl{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 20px;border:1px solid rgba(255,255,255,.22);color:var(--t2);border-radius:3px;text-decoration:none;transition:all .2s}
-.cg-cert-dl:hover{border-color:var(--cyan);color:var(--cyan)}
+.cg-view{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:11px 28px;background:var(--acc);color:#fff;border-radius:3px;text-decoration:none;transition:background .2s,transform .2s;display:inline-flex;align-items:center;gap:7px}
+.cg-view:hover{background:var(--acc2);transform:scale(1.05)}
 
 /* Info strip */
 .cg-info{padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.35rem;flex:1}
@@ -289,6 +289,66 @@ footer{background:var(--bg);border-top:1px solid var(--b1);padding:1.8rem;positi
   .btns{flex-direction:column}
   .st{flex:1;padding:10px 14px}
 }
+
+/* ══════════════════════════════════════
+   CHATBOT
+══════════════════════════════════════ */
+/* Floating launcher */
+#cb-btn{position:fixed;bottom:28px;left:28px;z-index:700;display:flex;align-items:center;gap:10px;
+  padding:13px 20px;background:var(--acc);border-radius:50px;border:none;cursor:pointer;
+  box-shadow:0 6px 28px rgba(37,99,235,.45);transition:all .25s;font-family:var(--mono);color:#fff;font-size:11px;letter-spacing:1.5px;text-transform:uppercase}
+#cb-btn:hover{background:var(--acc2);transform:translateY(-3px);box-shadow:0 10px 36px rgba(37,99,235,.55)}
+#cb-btn .cb-ico{width:20px;height:20px;flex-shrink:0}
+#cb-btn .cb-pulse{width:9px;height:9px;background:var(--green);border-radius:50%;flex-shrink:0;animation:pulse 1.8s ease infinite}
+/* Panel */
+#cb-panel{position:fixed;bottom:28px;left:28px;width:360px;height:520px;background:var(--bg2);border:1px solid var(--b2);
+  border-radius:16px;display:flex;flex-direction:column;z-index:701;
+  box-shadow:0 24px 64px rgba(0,0,0,.65);
+  transform:scale(.9) translateY(24px);opacity:0;pointer-events:none;
+  transition:transform .3s cubic-bezier(.22,1,.36,1),opacity .25s}
+#cb-panel.open{transform:none;opacity:1;pointer-events:all}
+/* Header */
+.cb-head{padding:14px 16px;border-bottom:1px solid var(--b1);display:flex;align-items:center;gap:12px;flex-shrink:0}
+.cb-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.cb-info{flex:1}
+.cb-name{font-size:13px;font-weight:600;color:var(--t1);line-height:1}
+.cb-status{font-family:var(--mono);font-size:9.5px;color:var(--green);letter-spacing:1px;display:flex;align-items:center;gap:5px;margin-top:3px}
+.cb-status::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%}
+.cb-close{background:none;border:none;color:var(--t4);cursor:pointer;font-size:18px;line-height:1;padding:4px;transition:color .2s;flex-shrink:0}
+.cb-close:hover{color:var(--t1)}
+/* Messages */
+.cb-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}
+.cb-msgs::-webkit-scrollbar{width:3px}
+.cb-msgs::-webkit-scrollbar-track{background:transparent}
+.cb-msgs::-webkit-scrollbar-thumb{background:var(--b2);border-radius:3px}
+.msg{display:flex;gap:8px;align-items:flex-end;animation:msgIn .25s ease}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.msg.bot{justify-content:flex-start}
+.msg.usr{justify-content:flex-end}
+.msg-bubble{max-width:80%;padding:9px 12px;border-radius:12px;font-size:13px;line-height:1.55}
+.msg.bot .msg-bubble{background:var(--bg3);color:var(--t2);border-bottom-left-radius:3px;border:1px solid var(--b1)}
+.msg.usr .msg-bubble{background:var(--acc);color:#fff;border-bottom-right-radius:3px}
+.msg-bot-ico{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+/* Typing dots */
+.typing-dots{display:flex;gap:4px;align-items:center;padding:4px 2px}
+.typing-dots span{width:6px;height:6px;background:var(--t4);border-radius:50%;animation:dot 1.4s ease infinite}
+.typing-dots span:nth-child(2){animation-delay:.22s}
+.typing-dots span:nth-child(3){animation-delay:.44s}
+@keyframes dot{0%,60%,100%{transform:none;opacity:.4}30%{transform:translateY(-5px);opacity:1}}
+/* Suggestions */
+.cb-sugg{padding:0 12px 8px;display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0}
+.sugg-btn{font-family:var(--mono);font-size:10px;padding:5px 10px;border:1px solid var(--b2);border-radius:20px;color:var(--t3);background:none;cursor:pointer;transition:all .2s;white-space:nowrap}
+.sugg-btn:hover{border-color:var(--acc);color:var(--acc3)}
+/* Input */
+.cb-input-row{padding:10px 12px;border-top:1px solid var(--b1);display:flex;gap:8px;align-items:center;flex-shrink:0}
+#cb-input{flex:1;background:var(--bg);border:1px solid var(--b1);border-radius:8px;padding:9px 12px;color:var(--t1);font-family:var(--sans);font-size:13px;outline:none;transition:border-color .2s;resize:none}
+#cb-input::placeholder{color:var(--t4)}
+#cb-input:focus{border-color:var(--acc)}
+#cb-send{width:36px;height:36px;background:var(--acc);border:none;border-radius:8px;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s,transform .15s}
+#cb-send:hover{background:var(--acc2);transform:scale(1.08)}
+#cb-send svg{width:15px;height:15px}
+@media(max-width:480px){#cb-panel{left:12px;right:12px;width:auto;bottom:90px}}
+
 </style>
 </head>
 <body>
@@ -348,11 +408,11 @@ footer{background:var(--bg);border-top:1px solid var(--b1);padding:1.8rem;positi
       </div>
       <div class="h-rule rv" style="transition-delay:.28s"></div>
       <p class="hero-bio rv" style="transition-delay:.32s">
-        Final-year B.E. Cyber Security student with <b>3 internships</b>, <b>2 professional certifications</b>, and a <b>Top 3% global TryHackMe ranking</b>. I find vulnerabilities before attackers do — and I deliver reports precise enough that not one was ever sent back for revision.
+        Final-year B.E. Cyber Security student with <b>3 internships</b>, <b>7 verified credentials</b>, and a <b>Top 3% global TryHackMe ranking</b>. I find vulnerabilities before attackers do — and I deliver reports precise enough that not one was ever sent back for revision.
       </p>
       <div class="stats rv" style="transition-delay:.4s">
         <div class="st"><span class="st-n" data-count="3">3</span><span class="st-l">Internships</span></div>
-        <div class="st"><span class="st-n" data-count="2">2</span><span class="st-l">Pro Certs</span></div>
+        <div class="st"><span class="st-n" data-count="3">3</span><span class="st-l">Pro Certs</span></div>
         <div class="st"><span class="st-n">Top 3%</span><span class="st-l">TryHackMe</span></div>
         <div class="st"><span class="st-n">24/24</span><span class="st-l">Advent of Cyber</span></div>
       </div>
@@ -402,6 +462,11 @@ footer{background:var(--bg);border-top:1px solid var(--b1);padding:1.8rem;positi
           <div class="pc-title">TryHackMe — Top 3% Globally</div>
           <div class="pc-body">Ranked among the most active security practitioners worldwide. Active rooms include privilege escalation, Active Directory attacks, cryptography, network pen-testing, and malware analysis.</div>
         </div>
+        <div class="pc">
+          <div class="pc-tag">Industry Simulation · Tata Group</div>
+          <div class="pc-title">Cybersecurity Analyst Job Simulation — Forage</div>
+          <div class="pc-body">Completed a real-world job simulation covering IAM fundamentals, IAM strategy assessment, custom IAM solution design, and platform integration — issued Dec 28, 2025. Enrolment Code: KXF8cM7328qMffvr3.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -419,7 +484,7 @@ footer{background:var(--bg);border-top:1px solid var(--b1);padding:1.8rem;positi
       <div class="sg rv" style="transition-delay:.05s"><div class="sg-icon">⚔️</div><div class="sg-title">Offensive Security</div><div class="tags"><span class="tag hi">WAPT</span><span class="tag hi">Network PenTest</span><span class="tag hi">Red Team Ops</span><span class="tag hi">SQLi · XSS · IDOR</span><span class="tag hi">Auth Bypass</span><span class="tag lo">Priv Escalation</span><span class="tag lo">Post-Exploitation</span><span class="tag lo">OSINT</span><span class="tag lo">Wireless Security</span></div></div>
       <div class="sg rv" style="transition-delay:.1s"><div class="sg-icon">🛠</div><div class="sg-title">Tools & Platforms</div><div class="tags"><span class="tag hi">Burp Suite</span><span class="tag hi">Metasploit</span><span class="tag hi">Nmap · Nessus</span><span class="tag hi">Wireshark</span><span class="tag hi">Scapy</span><span class="tag lo">OWASP ZAP</span><span class="tag lo">Gobuster</span><span class="tag lo">Hydra</span><span class="tag lo">Kali Linux</span></div></div>
       <div class="sg rv" style="transition-delay:.15s"><div class="sg-icon">📐</div><div class="sg-title">Frameworks & Standards</div><div class="tags"><span class="tag hi">OWASP Top 10</span><span class="tag hi">MITRE ATT&CK</span><span class="tag hi">NIST CSF</span><span class="tag hi">CVSS v3</span><span class="tag lo">CVE Analysis</span><span class="tag lo">Red Team Methodology</span></div></div>
-      <div class="sg rv" style="transition-delay:.2s"><div class="sg-icon">🔭</div><div class="sg-title">Security Operations</div><div class="tags"><span class="tag hi">Vuln Assessment</span><span class="tag hi">Vuln Management</span><span class="tag lo">SOC Operations</span><span class="tag lo">Log Analysis</span></div></div>
+      <div class="sg rv" style="transition-delay:.2s"><div class="sg-icon">🔭</div><div class="sg-title">Security Operations</div><div class="tags"><span class="tag hi">Vuln Assessment</span><span class="tag hi">Vuln Management</span><span class="tag lo">SOC Operations</span><span class="tag lo">Log Analysis</span><span class="tag hi">IAM (Identity &amp; Access)</span></div></div>
       <div class="sg rv" style="transition-delay:.25s"><div class="sg-icon">💻</div><div class="sg-title">Programming</div><div class="tags"><span class="tag hi">Python</span><span class="tag hi">Bash Scripting</span><span class="tag lo">Security Automation</span><span class="tag lo">Arduino / ESP8266</span></div></div>
       <div class="sg rv" style="transition-delay:.3s"><div class="sg-icon">🏗️</div><div class="sg-title">IT Infrastructure</div><div class="tags"><span class="tag hi">Linux Admin</span><span class="tag hi">Windows Server</span><span class="tag lo">System Hardening</span><span class="tag lo">Enterprise Hardware</span><span class="tag lo">Cloud Fundamentals</span></div></div>
     </div>
@@ -525,7 +590,6 @@ footer{background:var(--bg);border-top:1px solid var(--b1);padding:1.8rem;positi
           <div class="cert-placeholder" style="display:none"><span class="cp-ico">🛡️</span><span class="cp-lbl">WAPT Certificate</span></div>
           <div class="cg-overlay">
             <a href="certificates/cert_ozone.jpg" target="_blank" class="cg-view">🔍 View Full</a>
-            <a href="cert_ozone.pdf" download class="cg-cert-dl">⬇ Download PDF</a>
           </div>
         </div>
         <div class="cg-info">
@@ -546,7 +610,6 @@ footer{background:var(--bg);border-top:1px solid var(--b1);padding:1.8rem;positi
           <div class="cert-placeholder" style="display:none"><span class="cp-ico">🎯</span><span class="cp-lbl">CRTOM Certificate</span></div>
           <div class="cg-overlay">
             <a href="certificates/cert_crtom.jpg" target="_blank" class="cg-view">🔍 View Full</a>
-            <a href="cert_crtom.pdf" download class="cg-cert-dl">⬇ Download PDF</a>
           </div>
         </div>
         <div class="cg-info">
@@ -567,7 +630,6 @@ footer{background:var(--bg);border-top:1px solid var(--b1);padding:1.8rem;positi
           <div class="cert-placeholder" style="display:none"><span class="cp-ico">⚡</span><span class="cp-lbl">Advent of Cyber</span></div>
           <div class="cg-overlay">
             <a href="certificates/cert_advent_cyber.jpg" target="_blank" class="cg-view">🔍 View Full</a>
-            <a href="cert_advent_cyber.pdf" download class="cg-cert-dl">⬇ Download PDF</a>
           </div>
         </div>
         <div class="cg-info">
@@ -588,7 +650,6 @@ footer{background:var(--bg);border-top:1px solid var(--b1);padding:1.8rem;positi
           <div class="cert-placeholder" style="display:none"><span class="cp-ico">🦊</span><span class="cp-lbl">ShadowFox Certificate</span></div>
           <div class="cg-overlay">
             <a href="certificates/cert_shadowfox.jpg" target="_blank" class="cg-view">🔍 View Full</a>
-            <a href="cert_shadowfox.pdf" download class="cg-cert-dl">⬇ Download PDF</a>
           </div>
         </div>
         <div class="cg-info">
@@ -609,7 +670,6 @@ footer{background:var(--bg);border-top:1px solid var(--b1);padding:1.8rem;positi
           <div class="cert-placeholder" style="display:none"><span class="cp-ico">🔐</span><span class="cp-lbl">CSCSO Certificate</span></div>
           <div class="cg-overlay">
             <a href="certificates/cert_cscso.jpg" target="_blank" class="cg-view">🔍 View Full</a>
-            <a href="cert_cscso.pdf" download class="cg-cert-dl">⬇ Download PDF</a>
           </div>
         </div>
         <div class="cg-info">
@@ -630,7 +690,6 @@ footer{background:var(--bg);border-top:1px solid var(--b1);padding:1.8rem;positi
           <div class="cert-placeholder" style="display:none"><span class="cp-ico">🏁</span><span class="cp-lbl">CTF 1st Place</span></div>
           <div class="cg-overlay">
             <a href="certificates/cert_ctf_garuda.jpg" target="_blank" class="cg-view">🔍 View Full</a>
-            <a href="cert_nandha_ctf.pdf" download class="cg-cert-dl">⬇ Download PDF</a>
           </div>
         </div>
         <div class="cg-info">
@@ -642,14 +701,30 @@ footer{background:var(--bg);border-top:1px solid var(--b1);padding:1.8rem;positi
         </div>
       </div>
 
-    </div><!-- /certs-gallery -->
 
-    <!-- File path note (remove before deploying) -->
-    <p style="margin-top:2rem;font-family:var(--mono);font-size:10.5px;color:var(--t4);background:var(--bg);border:1px solid var(--b1);border-radius:5px;padding:.8rem 1.1rem;line-height:1.8">
-      📁 <b style="color:var(--t2)">To show your cert images:</b> Create a folder called <span style="color:var(--cyan)">certificates/</span> next to this HTML file and add your images:<br>
-      <span style="color:var(--acc3)">cert_ozone.jpg · cert_crtom.jpg · cert_advent_cyber.jpg · cert_shadowfox.jpg · cert_cscso.jpg · cert_ctf_garuda.jpg</span><br>
-      (JPG, PNG or WEBP all work. Delete this notice once images are added.)
-    </p>
+      <!-- 7 — Forage / Tata -->
+      <div class="cg pro rv" style="transition-delay:.35s">
+        <div class="cg-bar"></div>
+        <div class="cg-img-wrap">
+          <img src="certificates/cert_forage_tata.jpg" alt="Cybersecurity Analyst Job Simulation — Tata / Forage"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="cert-placeholder" style="display:none"><span class="cp-ico">🏢</span><span class="cp-lbl">Forage · Tata</span></div>
+          <div class="cg-overlay">
+            <a href="certificates/cert_forage_tata.jpg" target="_blank" class="cg-view">🔍 View Full</a>
+          </div>
+        </div>
+        <div class="cg-info">
+          <div class="cg-name">Cybersecurity Analyst Job Simulation</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--t4);line-height:1.55;margin:.25rem 0 .4rem">
+            IAM Fundamentals · IAM Strategy · Custom IAM Solutions · Platform Integration
+          </div>
+          <div class="cg-foot">
+            <span class="cg-iss">Tata Group · Forage</span>
+            <span class="cg-date">Dec 28, 2025</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -879,6 +954,183 @@ document.querySelectorAll('[data-count]').forEach(el => {
   };
   setTimeout(() => requestAnimationFrame(upd), 800);
 });
+
+
+/* ══════════════════════════════════════
+   CHATBOT LOGIC
+══════════════════════════════════════ */
+const CB_SYSTEM = `You are the AI assistant on Arul Murugan S's personal portfolio website. Your job is to help visitors — recruiters, hiring managers, or anyone curious — learn about Arul quickly and accurately.
+
+ABOUT ARUL:
+- Full name: Arul Murugan S
+- Role: Cyber Security Professional — Penetration Tester, Red Team Operator, WAPT Specialist, Security Researcher, IT Infrastructure Pro
+- Location: Kallakurichi, Tamil Nadu, India
+- Education: B.E. Cyber Security — Mahendra Engineering College (2024–Present)
+- Email: s.arulmurugan.am@gmail.com | Phone: +91-8610106797
+- LinkedIn: linkedin.com/in/arul-murugan-s-89329232b | GitHub: github.com/akarulmurugan
+- TryHackMe: Top 3% Global | 24/24 Advent of Cyber 2025 (ID: THM-SJLWOTYNZP)
+- Status: Open to Opportunities
+
+EXPERIENCE:
+1. ShadowFox – Cyber Security Intern (Feb 2026, Remote). ISO 9001/MSME certified. VIP Performer (C.ID: SF02VIP140). Identified critical attack paths via network recon and web exploitation.
+2. Ozone Cyber Security – WAPT Intern (Jun–Jul 2025, Tiruchirapalli, TN). Signed reference from VISWESH S S (Ref: OZ/DOC/210720255). Discovered SQLi, XSS, IDOR, auth bypass on live targets. CVSS v3 scored, PoC, validated remediation for every finding. Zero re-submissions.
+3. Corizo (IIT Bombay – Mood Indigo) – Cyber Security Intern (Mar–Apr 2025, Remote). 160-hour programme. Threat intelligence, SOC, vulnerability management. Wipro Dice ID: CRZ94377.
+4. Pre-cyber: UPS Service Engineer at TD Infra Services (Chennai) and Numax Energy (Hyderabad), Jun 2022–Jun 2024.
+
+SKILLS:
+- Offensive: WAPT, Network Pen-Testing, Red Team Ops, SQLi, XSS, IDOR, Auth Bypass, Privilege Escalation, Post-Exploitation, OSINT, Wireless Security
+- Tools: Burp Suite, Metasploit, Nmap, Nessus, OpenVAS, Wireshark, Scapy, OWASP ZAP, Nikto, Gobuster, Hydra, Kali Linux
+- Frameworks: OWASP Top 10, MITRE ATT&CK, NIST CSF, CVSS v3
+- Security Ops: Vulnerability Assessment, Vulnerability Management, SOC Operations, Log Analysis, IAM (Identity & Access Management)
+- Programming: Python (intermediate), Bash Scripting, Security Automation, Arduino/ESP8266
+- IT Infrastructure: Linux Admin, Windows Server, System Hardening, Enterprise Hardware, Cloud Fundamentals
+
+PROJECTS:
+1. Dual-Layer Wireless IDS/IPS – Python, Scapy, 802.11. Detects and blocks 5 real-world attack vectors in <200ms. 70% faster response vs baseline. 0 false negatives.
+2. IoT Infrastructure Monitor – Python, ESP8266, Arduino, MQ-135/DHT11. Real-time CO₂, PM2.5, VOC, temp/humidity monitoring with cloud sync and anomaly detection.
+
+CERTIFICATIONS:
+1. WAPT Performance Letter – Ozone Cyber Security (Jun–Jul 2025, Ref: OZ/DOC/210720255)
+2. CRTOM – Red Team Leaders, Joas A Santos (Dec 27, 2025, ID: dd00b32afe920040)
+3. Advent of Cyber 2025 – TryHackMe 24/24 (Jan 20, 2026, ID: THM-SJLWOTYNZP)
+4. Cyber Security Internship VIP Performer – ShadowFox (Feb 2026, C.ID: SF02VIP140)
+5. CSCSO – EU Cyber Academy, Paul C Dwyer (Feb 19, 2026, ID: 69974f8b87b5c35d180e0868)
+7. Cybersecurity Analyst Job Simulation – Tata Group / Forage (Dec 28, 2025). Tasks: IAM fundamentals, IAM strategy, custom IAM solutions, platform integration. Enrolment: KXF8cM7328qMffvr3.
+8. CTF 1st Place – GARUDA'26, Nandha Engineering College, National Level (Feb 21–22, 2026)
+
+INSTRUCTIONS:
+- Be concise, friendly and confident. Sound like you genuinely know Arul well.
+- Keep replies short (2–5 sentences max) unless the visitor clearly wants detail.
+- If asked about hiring, availability or contact — enthusiastically confirm he's open to opportunities and share: s.arulmurugan.am@gmail.com / +91-8610106797.
+- Never fabricate information not in the profile above.
+- Respond in the same language the visitor uses.`;
+
+let cbHistory = [];
+let cbOpen = false;
+let cbBusy = false;
+
+function cbToggle() {
+  cbOpen = !cbOpen;
+  document.getElementById('cb-panel').classList.toggle('open', cbOpen);
+  if (cbOpen && cbHistory.length === 0) {
+    setTimeout(() => cbAppend('bot', "Hi! 👋 I'm Arul's AI assistant. Ask me anything about his skills, experience, projects, or availability for work."), 320);
+  }
+  if (cbOpen) setTimeout(() => document.getElementById('cb-input').focus(), 350);
+}
+
+function cbSugg(btn) {
+  document.getElementById('cb-input').value = btn.textContent;
+  document.getElementById('cb-sugg').style.display = 'none';
+  cbSend();
+}
+
+function cbAppend(role, text) {
+  const msgs = document.getElementById('cb-msgs');
+  const wrap = document.createElement('div');
+  wrap.className = 'msg ' + role;
+  if (role === 'bot') {
+    wrap.innerHTML = '<div class="msg-bot-ico">🛡️</div><div class="msg-bubble"></div>';
+    wrap.querySelector('.msg-bubble').textContent = text;
+  } else {
+    wrap.innerHTML = '<div class="msg-bubble"></div>';
+    wrap.querySelector('.msg-bubble').textContent = text;
+  }
+  msgs.appendChild(wrap);
+  msgs.scrollTop = msgs.scrollHeight;
+  return wrap;
+}
+
+function cbTyping() {
+  const msgs = document.getElementById('cb-msgs');
+  const wrap = document.createElement('div');
+  wrap.className = 'msg bot';
+  wrap.id = 'cb-typing';
+  wrap.innerHTML = '<div class="msg-bot-ico">🛡️</div><div class="msg-bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div>';
+  msgs.appendChild(wrap);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+async function cbSend() {
+  if (cbBusy) return;
+  const inp = document.getElementById('cb-input');
+  const text = inp.value.trim();
+  if (!text) return;
+  inp.value = '';
+  document.getElementById('cb-sugg').style.display = 'none';
+
+  cbAppend('usr', text);
+  cbHistory.push({role: 'user', content: text});
+
+  cbBusy = true;
+  document.getElementById('cb-send').style.opacity = '.45';
+  cbTyping();
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: CB_SYSTEM,
+        messages: cbHistory
+      })
+    });
+    const data = await res.json();
+    const reply = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('') || "Sorry, I couldn't get a response. Please try again.";
+    cbHistory.push({role: 'assistant', content: reply});
+
+    const typing = document.getElementById('cb-typing');
+    if (typing) typing.remove();
+    cbAppend('bot', reply);
+  } catch(err) {
+    const typing = document.getElementById('cb-typing');
+    if (typing) typing.remove();
+    cbAppend('bot', "Connection issue — please try again in a moment.");
+  }
+
+  cbBusy = false;
+  document.getElementById('cb-send').style.opacity = '1';
+}
+
 </script>
+
+<!-- ══ CHATBOT ══ -->
+<button id="cb-btn" onclick="cbToggle()">
+  <svg class="cb-ico" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+  </svg>
+  Ask about Arul
+  <span class="cb-pulse"></span>
+</button>
+
+<div id="cb-panel">
+  <div class="cb-head">
+    <div class="cb-avatar">🛡️</div>
+    <div class="cb-info">
+      <div class="cb-name">Arul's AI Assistant</div>
+      <div class="cb-status">Online · Ask me anything</div>
+    </div>
+    <button class="cb-close" onclick="cbToggle()">✕</button>
+  </div>
+  <div class="cb-msgs" id="cb-msgs"></div>
+  <div class="cb-sugg" id="cb-sugg">
+    <button class="sugg-btn" onclick="cbSugg(this)">Skills &amp; tools</button>
+    <button class="sugg-btn" onclick="cbSugg(this)">Experience</button>
+    <button class="sugg-btn" onclick="cbSugg(this)">Certifications</button>
+    <button class="sugg-btn" onclick="cbSugg(this)">Available for hire?</button>
+    <button class="sugg-btn" onclick="cbSugg(this)">Projects built</button>
+  </div>
+  <div class="cb-input-row">
+    <input id="cb-input" type="text" placeholder="Ask about skills, experience…" maxlength="300"
+           onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();cbSend()}">
+    <button id="cb-send" onclick="cbSend()">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
 </body>
 </html>
