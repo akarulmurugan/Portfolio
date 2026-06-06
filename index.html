@@ -724,7 +724,8 @@ footer{background:var(--bg);border-top:1px solid var(--b1);padding:1.8rem;positi
           </div>
         </div>
       </div>
-    </div>
+
+    </div><!-- /certs-gallery -->
   </div>
 </section>
 
@@ -957,69 +958,225 @@ document.querySelectorAll('[data-count]').forEach(el => {
 
 
 /* ══════════════════════════════════════
-   CHATBOT LOGIC
+   CHATBOT — Zero API, fully offline
 ══════════════════════════════════════ */
-const CB_SYSTEM = `You are the AI assistant on Arul Murugan S's personal portfolio website. Your job is to help visitors — recruiters, hiring managers, or anyone curious — learn about Arul quickly and accurately.
 
-ABOUT ARUL:
-- Full name: Arul Murugan S
-- Role: Cyber Security Professional — Penetration Tester, Red Team Operator, WAPT Specialist, Security Researcher, IT Infrastructure Pro
-- Location: Kallakurichi, Tamil Nadu, India
-- Education: B.E. Cyber Security — Mahendra Engineering College (2024–Present)
-- Email: s.arulmurugan.am@gmail.com | Phone: +91-8610106797
-- LinkedIn: linkedin.com/in/arul-murugan-s-89329232b | GitHub: github.com/akarulmurugan
-- TryHackMe: Top 3% Global | 24/24 Advent of Cyber 2025 (ID: THM-SJLWOTYNZP)
-- Status: Open to Opportunities
+/* ── Rule engine ── */
+const CB_RULES = [
+  {
+    tags: ['hi','hello','hey','howdy','hola','sup',"what's up",'greet','good morning','good afternoon','good evening','namaste','vanakkam'],
+    answers: [
+      "Hey there! 👋 I'm Arul's assistant. Ask me about his skills, internships, projects, certifications, or whether he's available to hire!",
+      "Hi! 👋 Great to have you here. I can tell you all about Arul's cyber security background. What would you like to know?",
+      "Hello! 👋 I'm here to help you learn about Arul Murugan S. Ask me anything — skills, experience, projects, or how to reach him!"
+    ]
+  },
+  {
+    tags: ['who','about arul','tell me about','introduce','background','overview','summary','profile','himself'],
+    answers: [
+      "Arul Murugan S is a final-year B.E. Cyber Security student from Tamil Nadu with 3 internships, 7 verified credentials, and a Top 3% TryHackMe global rank. He specialises in penetration testing, red teaming, and WAPT — and his pentest reports have a zero re-submission record. 🛡️",
+      "Arul is a Penetration Tester, Red Team Operator, and WAPT Specialist based in Kallakurichi, Tamil Nadu. He has hands-on internship experience at Ozone Cyber Security, ShadowFox, and Corizo, plus 2 years of enterprise IT infrastructure before pivoting to cyber security in 2024."
+    ]
+  },
+  {
+    tags: ['skill','technical','expertise','proficien','good at','specialise','specializ','what can','capable','competenc'],
+    answers: [
+      "Arul's core offensive skills: WAPT, Network Pen-Testing, Red Team Ops, SQLi, XSS, IDOR, Auth Bypass, Privilege Escalation, Post-Exploitation, OSINT, and Wireless Security. He maps every finding to MITRE ATT&CK and scores it with CVSS v3.",
+      "He's skilled across the full offensive stack and knows frameworks like OWASP Top 10, MITRE ATT&CK, NIST CSF, and CVSS v3. On the defensive side: Vulnerability Assessment & Management, SOC Operations, Log Analysis, and IAM. He also codes in Python and Bash for security automation."
+    ]
+  },
+  {
+    tags: ['tool','burp','metasploit','nmap','nessus','wireshark','kali','gobuster','hydra','scapy','openvas','nikto','zap','software','use'],
+    answers: [
+      "His primary toolkit: Burp Suite, Metasploit, Nmap, Nessus, OpenVAS, Wireshark, Scapy, OWASP ZAP, Nikto, Gobuster, and Hydra — all on Kali Linux. He uses Python and Bash to build custom automation scripts on top of these.",
+      "Burp Suite and Metasploit are his go-to offensive tools. For recon and scanning: Nmap, Nessus, OpenVAS. For traffic analysis: Wireshark and Scapy. For web: OWASP ZAP and Nikto. Everything runs on Kali Linux with Python/Bash scripting layered on top."
+    ]
+  },
+  {
+    tags: ['pen test','penetration','pentest','ethical hack','offensive','red team','wapt','web application','exploit','vulnerability','attack','vuln'],
+    answers: [
+      "Arul runs the full pentest lifecycle: scoping → recon → exploitation → reporting. At Ozone Cyber Security he found SQLi, XSS, IDOR, and auth bypass on live production targets, with CVSS v3 scores, proof-of-concepts, and validated remediation for every single finding. Zero re-submissions. 🎯",
+      "His offensive specialties are WAPT (Web Application Pen Testing), network pen-testing, and red team operations. He maps all findings to MITRE ATT&CK technique IDs — so reports are useful for both technical teams and senior management, not just raw tool output."
+    ]
+  },
+  {
+    tags: ['experience','work','job','intern','internship','company','ozone','shadowfox','corizo','employ','career','history','past'],
+    answers: [
+      "Arul has 3 cyber security internships: ① ShadowFox (Feb 2026, VIP Performer) ② Ozone Cyber Security — WAPT (Jun–Jul 2025, signed reference letter) ③ Corizo / IIT Bombay Mood Indigo (Mar–Apr 2025, 160-hour programme). Before that, 2 years as a UPS Service Engineer in enterprise IT.",
+      "His most notable internship was at Ozone Cyber Security (Tiruchirapalli) as a WAPT Intern — he was formally commended in writing by their Cyber Security Specialist for excellent performance (Ref: OZ/DOC/210720255). He was also named VIP Performer at ShadowFox. 🏆"
+    ]
+  },
+  {
+    tags: ['ozone'],
+    answers: [
+      "At Ozone Cyber Security (Jun–Jul 2025, Tiruchirapalli), Arul worked as a WAPT Intern. He discovered SQLi, XSS, IDOR, and authentication bypass on live production systems — every finding had a CVSS v3 score, a proof-of-concept, and validated remediation. Not one report was sent back for revision. He received a signed performance letter from Cyber Security Specialist VISWESH S S (Ref: OZ/DOC/210720255). ✅"
+    ]
+  },
+  {
+    tags: ['shadowfox','shadow fox'],
+    answers: [
+      "At ShadowFox (Feb 2026, Remote), Arul was recognised as a VIP Performer (C.ID: SF02VIP140). He identified critical attack paths via network reconnaissance and web exploitation across simulated enterprise environments — completed all modules ahead of schedule. ShadowFox is ISO 9001 / MSME certified."
+    ]
+  },
+  {
+    tags: ['corizo','iit','mood indigo'],
+    answers: [
+      "At Corizo (Mar–Apr 2025, Remote) — part of IIT Bombay's Mood Indigo — Arul completed a 160-hour intensive programme covering threat intelligence, SOC operations, and vulnerability management across 6 simulated enterprise scenarios. Wipro Dice ID: CRZ94377."
+    ]
+  },
+  {
+    tags: ['project','build','built','made','create','ids','ips','widps','wireless','iot','sensor','arduino','esp8266'],
+    answers: [
+      "Arul has 2 security projects: ① Dual-Layer Wireless IDS/IPS — detects and blocks 5 real-world 802.11 attack vectors in under 200ms using Python and Scapy (zero false negatives, 70% faster response). ② IoT Infrastructure Monitor — real-time CO₂, PM2.5, VOC, temp/humidity monitoring via ESP8266 and Arduino with cloud sync and anomaly detection. 🔧",
+      "His standout project is the Wireless IDS/IPS — it runs two detection layers (signature-based + anomaly-based) simultaneously and catches five different live attack vectors under 200 milliseconds. Validated in a real lab. The IoT Monitor project is a proof-of-concept for OT/IoT security monitoring."
+    ]
+  },
+  {
+    tags: ['cert','certif','credential','qualification','crtom','cscso','forage','tata','iam','tryhackme','thm','advent','garuda','ctf','eu cyber','red team leader','vip'],
+    answers: [
+      "Arul holds 7 verified credentials: WAPT Letter (Ozone) · CRTOM (Red Team Leaders) · Advent of Cyber 24/24 (TryHackMe) · VIP Performer (ShadowFox) · CSCSO (EU Cyber Academy) · Cybersecurity Analyst Job Simulation (Tata / Forage) · CTF 1st Place GARUDA'26. All downloadable with verifiable IDs.",
+      "His top certifications are CRTOM (Red Team Leaders, Dec 2025) and CSCSO (EU Cyber Academy, Feb 2026) — both verifiable online. He also won 1st place in a national-level CTF at GARUDA'26 and completed all 24 Advent of Cyber 2025 challenges on TryHackMe (ID: THM-SJLWOTYNZP). 🏆"
+    ]
+  },
+  {
+    tags: ['tryhackme','thm','top 3','rank','platform','advent','hackthebox','ctf capture'],
+    answers: [
+      "On TryHackMe, Arul holds a Top 3% Global ranking — placing him among the most active security practitioners worldwide. He completed every single one of the 24 Advent of Cyber 2025 challenges (ID: THM-SJLWOTYNZP, signed by TryHackMe's CEO & CTO). 🎯",
+      "Top 3% globally on TryHackMe — that's across hundreds of thousands of users. His active rooms cover privilege escalation, Active Directory attacks, cryptography, network pen-testing, and malware analysis. He also got 24/24 in Advent of Cyber 2025."
+    ]
+  },
+  {
+    tags: ['iam','identity access','access management','forage tata','tata forage','job simulation'],
+    answers: [
+      "Arul completed Tata Group's Cybersecurity Analyst Job Simulation via Forage (Dec 28, 2025), covering IAM fundamentals, IAM strategy assessment, custom IAM solution design, and platform integration. Enrolment Code: KXF8cM7328qMffvr3."
+    ]
+  },
+  {
+    tags: ['ctf','garuda','capture the flag','competition','contest','winner','1st place','first place'],
+    answers: [
+      "Arul won 1st Place in the GARUDA'26 CTF — a national-level Capture The Flag competition held at Nandha Engineering College (Feb 21–22, 2026). He received a Certificate of Appreciation for the win. 🏁"
+    ]
+  },
+  {
+    tags: ['education','degree','college','university','study','student','mahendra','b.e','bachelor'],
+    answers: [
+      "Arul is currently pursuing a B.E. in Cyber Security at Mahendra Engineering College (2024–Present). Before that, he worked 2 years in enterprise IT infrastructure — which gives him a practical understanding of real systems that most freshers simply don't have."
+    ]
+  },
+  {
+    tags: ['location','where','india','tamil','kallakurichi','based','city','country'],
+    answers: [
+      "Arul is based in Kallakurichi, Tamil Nadu, India. He has worked remotely and on-site across multiple internships, so he's comfortable with both setups. 📍"
+    ]
+  },
+  {
+    tags: ['contact','email','phone','reach','message','linkedin','github','social','connect','touch','write'],
+    answers: [
+      "You can reach Arul directly at: ✉️ s.arulmurugan.am@gmail.com · 📞 +91-8610106797 · 🔗 linkedin.com/in/arul-murugan-s-89329232b · 💻 github.com/akarulmurugan. He responds within 24 hours.",
+      "Best ways to reach him: Email → s.arulmurugan.am@gmail.com | Phone → +91-8610106797 | LinkedIn → linkedin.com/in/arul-murugan-s-89329232b. He's very responsive — usually replies within a day."
+    ]
+  },
+  {
+    tags: ['hire','available','open','opportunity','recruit','position','role','looking for','job offer','freelance','full-time','part-time','internship offer'],
+    answers: [
+      "Yes! Arul is actively open to opportunities 🟢 — full-time roles, internships, and freelance penetration testing engagements. Best way to reach him: s.arulmurugan.am@gmail.com or +91-8610106797. He responds within 24 hours.",
+      "Absolutely — Arul is open to work! He's looking for penetration tester, red team, or cyber security analyst roles. He's also open to freelance WAPT engagements. Drop him a message at s.arulmurugan.am@gmail.com 📩"
+    ]
+  },
+  {
+    tags: ['salary','pay','expect','compensation','package','ctc','lpa'],
+    answers: [
+      "I don't have salary details on hand — best to discuss that directly with Arul. Reach him at s.arulmurugan.am@gmail.com and he'll get back to you within 24 hours. 😊"
+    ]
+  },
+  {
+    tags: ['resume','cv','download','pdf'],
+    answers: [
+      "You can download Arul's resume using the 'Resume' button in the top navigation bar, or the 'Download Resume PDF' button in the Resume section. It's a single-page document with all internships, certifications, and verifiable credential IDs. 📄"
+    ]
+  },
+  {
+    tags: ['python','bash','script','code','program','language'],
+    answers: [
+      "Arul codes in Python (intermediate level) and Bash for security automation — building custom scripts, scanners, and tools. He also works with Arduino and ESP8266 for IoT/hardware security projects. He's not a software developer, but he writes real, working security tooling."
+    ]
+  },
+  {
+    tags: ['linux','windows','server','infrastructure','hardware','system','admin','cloud'],
+    answers: [
+      "Before pivoting to cyber security, Arul spent 2 years as a UPS Service Engineer in enterprise IT. He's comfortable with Linux administration, Windows Server, system hardening, enterprise hardware, and cloud fundamentals — practical knowledge that helps him understand attacker targets from the inside."
+    ]
+  },
+  {
+    tags: ['mitre','owasp','nist','cvss','framework','standard','methodology'],
+    answers: [
+      "Arul works within OWASP Top 10, MITRE ATT&CK, NIST CSF, and CVSS v3. Every pentest finding he reports includes the ATT&CK technique ID and a CVSS v3 score — making his reports useful for both the technical team and management, not just raw scanner output."
+    ]
+  },
+  {
+    tags: ['strength','strong','best','top','stand out','different','unique','advantage','edge'],
+    answers: [
+      "Arul's biggest edge is the combination of enterprise IT infrastructure experience + formal cyber security training. He knows how real systems are built, which makes him better at finding how they break. His reports also go the extra mile — MITRE ATT&CK mapping, CVSS v3 scoring, and validated remediation. Zero re-submissions at Ozone speaks for itself. 💪",
+      "Three things set him apart: ① Zero-resubmission pentest reports (Ozone Cyber Security) ② Dual background — 2 years enterprise IT then B.E. Cyber Security ③ Real deliverables — an IDS/IPS that actually detects 5 attack types in under 200ms, not just a 'student project'. 🎯"
+    ]
+  },
+  {
+    tags: ['thank','thanks','great','awesome','cool','nice','helpful','good','perfect','excellent','wow','impressive'],
+    answers: [
+      "Happy to help! Feel free to ask anything else about Arul, or reach out to him directly at s.arulmurugan.am@gmail.com 😊",
+      "Glad that was useful! If you have more questions about Arul's background, just ask. Or connect with him directly on LinkedIn! 🙌"
+    ]
+  },
+  {
+    tags: ['bye','goodbye','see you','cya','later','take care','good night','goodnight'],
+    answers: [
+      "Take care! 👋 If you'd like to connect with Arul, reach him at s.arulmurugan.am@gmail.com anytime.",
+      "Goodbye! 👋 Don't hesitate to come back if you have more questions. Arul would love to hear from you!"
+    ]
+  },
+  {
+    tags: ['help','what can you','what do you know','what can i ask','guide','menu'],
+    answers: [
+      "I can answer questions about:\n• 🛡️ Skills & tools\n• 💼 Internship experience\n• 📁 Projects built\n• 🎓 Certifications & credentials\n• 📍 Location & education\n• 📞 How to contact Arul\n• ✅ Whether he's available to hire\n\nJust ask away!"
+    ]
+  }
+];
 
-EXPERIENCE:
-1. ShadowFox – Cyber Security Intern (Feb 2026, Remote). ISO 9001/MSME certified. VIP Performer (C.ID: SF02VIP140). Identified critical attack paths via network recon and web exploitation.
-2. Ozone Cyber Security – WAPT Intern (Jun–Jul 2025, Tiruchirapalli, TN). Signed reference from VISWESH S S (Ref: OZ/DOC/210720255). Discovered SQLi, XSS, IDOR, auth bypass on live targets. CVSS v3 scored, PoC, validated remediation for every finding. Zero re-submissions.
-3. Corizo (IIT Bombay – Mood Indigo) – Cyber Security Intern (Mar–Apr 2025, Remote). 160-hour programme. Threat intelligence, SOC, vulnerability management. Wipro Dice ID: CRZ94377.
-4. Pre-cyber: UPS Service Engineer at TD Infra Services (Chennai) and Numax Energy (Hyderabad), Jun 2022–Jun 2024.
+const CB_FALLBACK = [
+  "That's a great question! I'm best at answering about Arul's skills, experience, projects, certifications, or how to contact him. What would you like to know? 😊",
+  "I'm not sure about that one — try asking me about Arul's skills, internships, projects, or availability for hire!",
+  "Hmm, I don't have that info. But I can tell you all about Arul's cyber security background, certifications, or how to reach him. Ask away! 💡"
+];
 
-SKILLS:
-- Offensive: WAPT, Network Pen-Testing, Red Team Ops, SQLi, XSS, IDOR, Auth Bypass, Privilege Escalation, Post-Exploitation, OSINT, Wireless Security
-- Tools: Burp Suite, Metasploit, Nmap, Nessus, OpenVAS, Wireshark, Scapy, OWASP ZAP, Nikto, Gobuster, Hydra, Kali Linux
-- Frameworks: OWASP Top 10, MITRE ATT&CK, NIST CSF, CVSS v3
-- Security Ops: Vulnerability Assessment, Vulnerability Management, SOC Operations, Log Analysis, IAM (Identity & Access Management)
-- Programming: Python (intermediate), Bash Scripting, Security Automation, Arduino/ESP8266
-- IT Infrastructure: Linux Admin, Windows Server, System Hardening, Enterprise Hardware, Cloud Fundamentals
+/* ── Match function ── */
+function cbMatch(input) {
+  const q = input.toLowerCase().replace(/[^a-z0-9\s']/g, ' ');
+  for (const rule of CB_RULES) {
+    if (rule.tags.some(t => q.includes(t))) {
+      const answers = rule.answers;
+      return answers[Math.floor(Math.random() * answers.length)];
+    }
+  }
+  return CB_FALLBACK[Math.floor(Math.random() * CB_FALLBACK.length)];
+}
 
-PROJECTS:
-1. Dual-Layer Wireless IDS/IPS – Python, Scapy, 802.11. Detects and blocks 5 real-world attack vectors in <200ms. 70% faster response vs baseline. 0 false negatives.
-2. IoT Infrastructure Monitor – Python, ESP8266, Arduino, MQ-135/DHT11. Real-time CO₂, PM2.5, VOC, temp/humidity monitoring with cloud sync and anomaly detection.
-
-CERTIFICATIONS:
-1. WAPT Performance Letter – Ozone Cyber Security (Jun–Jul 2025, Ref: OZ/DOC/210720255)
-2. CRTOM – Red Team Leaders, Joas A Santos (Dec 27, 2025, ID: dd00b32afe920040)
-3. Advent of Cyber 2025 – TryHackMe 24/24 (Jan 20, 2026, ID: THM-SJLWOTYNZP)
-4. Cyber Security Internship VIP Performer – ShadowFox (Feb 2026, C.ID: SF02VIP140)
-5. CSCSO – EU Cyber Academy, Paul C Dwyer (Feb 19, 2026, ID: 69974f8b87b5c35d180e0868)
-7. Cybersecurity Analyst Job Simulation – Tata Group / Forage (Dec 28, 2025). Tasks: IAM fundamentals, IAM strategy, custom IAM solutions, platform integration. Enrolment: KXF8cM7328qMffvr3.
-8. CTF 1st Place – GARUDA'26, Nandha Engineering College, National Level (Feb 21–22, 2026)
-
-INSTRUCTIONS:
-- Be concise, friendly and confident. Sound like you genuinely know Arul well.
-- Keep replies short (2–5 sentences max) unless the visitor clearly wants detail.
-- If asked about hiring, availability or contact — enthusiastically confirm he's open to opportunities and share: s.arulmurugan.am@gmail.com / +91-8610106797.
-- Never fabricate information not in the profile above.
-- Respond in the same language the visitor uses.`;
-
-let cbHistory = [];
+/* ── UI state ── */
 let cbOpen = false;
 let cbBusy = false;
+let cbStarted = false;
 
 function cbToggle() {
   cbOpen = !cbOpen;
   document.getElementById('cb-panel').classList.toggle('open', cbOpen);
-  if (cbOpen && cbHistory.length === 0) {
-    setTimeout(() => cbAppend('bot', "Hi! 👋 I'm Arul's AI assistant. Ask me anything about his skills, experience, projects, or availability for work."), 320);
+  if (cbOpen && !cbStarted) {
+    cbStarted = true;
+    setTimeout(() => cbAppend('bot', "Hi! 👋 I'm Arul's assistant. Ask me about his skills, experience, projects, certifications, or whether he's available to hire!"), 320);
   }
-  if (cbOpen) setTimeout(() => document.getElementById('cb-input').focus(), 350);
+  if (cbOpen) setTimeout(() => document.getElementById('cb-input').focus(), 360);
 }
 
 function cbSugg(btn) {
-  document.getElementById('cb-input').value = btn.textContent;
+  document.getElementById('cb-input').value = btn.textContent.trim();
   document.getElementById('cb-sugg').style.display = 'none';
   cbSend();
 }
@@ -1030,7 +1187,12 @@ function cbAppend(role, text) {
   wrap.className = 'msg ' + role;
   if (role === 'bot') {
     wrap.innerHTML = '<div class="msg-bot-ico">🛡️</div><div class="msg-bubble"></div>';
-    wrap.querySelector('.msg-bubble').textContent = text;
+    // Render line breaks from \n
+    const bubble = wrap.querySelector('.msg-bubble');
+    text.split('\n').forEach((line, i) => {
+      if (i > 0) bubble.appendChild(document.createElement('br'));
+      bubble.appendChild(document.createTextNode(line));
+    });
   } else {
     wrap.innerHTML = '<div class="msg-bubble"></div>';
     wrap.querySelector('.msg-bubble').textContent = text;
@@ -1043,54 +1205,32 @@ function cbAppend(role, text) {
 function cbTyping() {
   const msgs = document.getElementById('cb-msgs');
   const wrap = document.createElement('div');
-  wrap.className = 'msg bot';
-  wrap.id = 'cb-typing';
+  wrap.className = 'msg bot'; wrap.id = 'cb-typing';
   wrap.innerHTML = '<div class="msg-bot-ico">🛡️</div><div class="msg-bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div>';
   msgs.appendChild(wrap);
   msgs.scrollTop = msgs.scrollHeight;
 }
 
-async function cbSend() {
+function cbSend() {
   if (cbBusy) return;
   const inp = document.getElementById('cb-input');
   const text = inp.value.trim();
   if (!text) return;
   inp.value = '';
   document.getElementById('cb-sugg').style.display = 'none';
-
   cbAppend('usr', text);
-  cbHistory.push({role: 'user', content: text});
-
   cbBusy = true;
   document.getElementById('cb-send').style.opacity = '.45';
   cbTyping();
-
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: CB_SYSTEM,
-        messages: cbHistory
-      })
-    });
-    const data = await res.json();
-    const reply = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('') || "Sorry, I couldn't get a response. Please try again.";
-    cbHistory.push({role: 'assistant', content: reply});
-
+  // Simulate thinking delay (600–1000ms)
+  const delay = 620 + Math.random() * 380;
+  setTimeout(() => {
     const typing = document.getElementById('cb-typing');
     if (typing) typing.remove();
-    cbAppend('bot', reply);
-  } catch(err) {
-    const typing = document.getElementById('cb-typing');
-    if (typing) typing.remove();
-    cbAppend('bot', "Connection issue — please try again in a moment.");
-  }
-
-  cbBusy = false;
-  document.getElementById('cb-send').style.opacity = '1';
+    cbAppend('bot', cbMatch(text));
+    cbBusy = false;
+    document.getElementById('cb-send').style.opacity = '1';
+  }, delay);
 }
 
 </script>
