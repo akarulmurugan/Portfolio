@@ -172,20 +172,46 @@ section{position:relative;z-index:2}
 
 /* ── CERTS ── */
 #certifications{background:var(--bg2)}
-.certs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
-.cc{background:var(--bg);border:1px solid var(--b1);border-radius:8px;padding:1.3rem;display:flex;flex-direction:column;gap:.5rem;transition:all .28s;position:relative;overflow:hidden}
-.cc.pro{border-color:rgba(37,99,235,.22)}
-.cc.pro:hover{border-color:var(--acc);box-shadow:0 8px 28px rgba(37,99,235,.12)}
-.cc.emp{border-color:rgba(16,185,129,.18)}
-.cc.emp:hover{border-color:var(--green);box-shadow:0 8px 28px rgba(16,185,129,.1)}
-.cc.plt:hover{border-color:var(--b2)}
-.cc-icon{font-size:1.3rem}
-.cc-name{font-size:13px;font-weight:600;color:var(--t1);line-height:1.3}
-.cc-iss{font-size:11.5px;color:var(--t3)}
-.cc-date{font-family:var(--mono);font-size:9.5px;color:var(--t4)}
-.cc-id{font-family:var(--mono);font-size:9px;color:var(--t4);background:rgba(255,255,255,.02);padding:4px 7px;border-radius:3px;border:1px solid var(--b1);word-break:break-all;line-height:1.5}
-.cc-dl{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--acc3);text-decoration:none;padding:6px 12px;border:1px solid rgba(37,99,235,.18);border-radius:3px;transition:all .2s;margin-top:auto;align-self:flex-start}
-.cc-dl:hover{background:rgba(37,99,235,.1);border-color:var(--acc);color:var(--cyan)}
+.certs-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+
+/* Card shell */
+.cg{background:var(--bg);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;
+    transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s;
+    border:1px solid var(--b1);position:relative}
+.cg:hover{transform:translateY(-7px);box-shadow:0 22px 55px rgba(0,0,0,.55)}
+
+/* Tier-colour top bar */
+.cg-bar{height:3px;width:100%;flex-shrink:0}
+.cg.pro .cg-bar{background:linear-gradient(90deg,var(--acc),var(--cyan))}
+.cg.emp .cg-bar{background:linear-gradient(90deg,var(--green),var(--cyan))}
+.cg.plt .cg-bar{background:linear-gradient(90deg,var(--gold),var(--red))}
+
+/* Image area */
+.cg-img-wrap{position:relative;width:100%;aspect-ratio:16/10;overflow:hidden;background:var(--bg3);flex-shrink:0}
+.cg-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:center top;
+    transition:transform .4s cubic-bezier(.22,1,.36,1),filter .3s;filter:brightness(.88) saturate(.92)}
+.cg:hover .cg-img-wrap img{transform:scale(1.05);filter:brightness(1) saturate(1)}
+
+/* Placeholder shown when img missing */
+.cg-img-wrap .cert-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;background:linear-gradient(135deg,var(--bg3) 0%,var(--bg4) 100%)}
+.cg-img-wrap .cert-placeholder .cp-ico{font-size:2.2rem;opacity:.5}
+.cg-img-wrap .cert-placeholder .cp-lbl{font-family:var(--mono);font-size:10px;color:var(--t4);letter-spacing:2px;text-transform:uppercase}
+
+/* Hover overlay */
+.cg-overlay{position:absolute;inset:0;background:rgba(6,8,15,.72);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;
+    opacity:0;transition:opacity .28s;pointer-events:none}
+.cg:hover .cg-overlay{opacity:1;pointer-events:all}
+.cg-view{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:10px 24px;background:var(--acc);color:#fff;border-radius:3px;text-decoration:none;transition:background .2s;border:none;cursor:pointer}
+.cg-view:hover{background:var(--acc2)}
+.cg-cert-dl{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 20px;border:1px solid rgba(255,255,255,.22);color:var(--t2);border-radius:3px;text-decoration:none;transition:all .2s}
+.cg-cert-dl:hover{border-color:var(--cyan);color:var(--cyan)}
+
+/* Info strip */
+.cg-info{padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.35rem;flex:1}
+.cg-name{font-size:12.5px;font-weight:600;color:var(--t1);line-height:1.35}
+.cg-foot{display:flex;align-items:center;justify-content:space-between;gap:.5rem;flex-wrap:wrap;margin-top:auto;padding-top:.5rem;border-top:1px solid var(--b1)}
+.cg-iss{font-family:var(--mono);font-size:9.5px;color:var(--t4)}
+.cg-date{font-family:var(--mono);font-size:9.5px;color:var(--t4)}
 
 /* ── RESUME ── */
 #resume{background:var(--bg)}
@@ -251,14 +277,14 @@ footer{background:var(--bg);border-top:1px solid var(--b1);padding:1.8rem;positi
   .nav-links,.rail{display:none}
   .hmbg{display:flex}
   .about-grid,.ct-grid{grid-template-columns:1fr;gap:2.5rem}
-  .certs-grid{grid-template-columns:1fr 1fr}
+  .certs-gallery{grid-template-columns:1fr 1fr}
   .proj-grid{grid-template-columns:1fr}
   .skills-grid{grid-template-columns:1fr 1fr}
   .res-block{flex-direction:column;align-items:flex-start}
   .stats{flex-wrap:wrap}
 }
 @media(max-width:600px){
-  .certs-grid,.skills-grid{grid-template-columns:1fr}
+  .certs-gallery,.skills-grid{grid-template-columns:1fr}
   .fr{grid-template-columns:1fr}
   .btns{flex-direction:column}
   .st{flex:1;padding:10px 14px}
@@ -487,14 +513,143 @@ footer{background:var(--bg);border-top:1px solid var(--b1);padding:1.8rem;positi
       <h2 class="sh-title">Verified <span class="g">Credentials</span></h2>
       <div class="sh-line"></div>
     </div>
-    <div class="certs-grid">
-      <div class="cc emp rv" style="transition-delay:.05s"><div class="cc-icon">🛡️</div><div class="cc-name">WAPT Internship — Performance Letter</div><div class="cc-iss">Ozone Cyber Security · Signed & Stamped</div><div class="cc-date">Jun–Jul 2025</div><div class="cc-id">Ref: OZ/DOC/210720255</div><a href="cert_ozone.pdf" download class="cc-dl">⬇ Download</a></div>
-      <div class="cc pro rv" style="transition-delay:.1s"><div class="cc-icon">🎯</div><div class="cc-name">CRTOM — Certified Red Team Operations Management</div><div class="cc-iss">Red Team Leaders · Joas A Santos</div><div class="cc-date">Dec 27, 2025</div><div class="cc-id">courses.redteamleaders.com/exam-completion/dd00b32afe920040</div><a href="cert_crtom.pdf" download class="cc-dl">⬇ Download</a></div>
-      <div class="cc plt rv" style="transition-delay:.15s"><div class="cc-icon">⚡</div><div class="cc-name">Advent of Cyber 2025 — 24/24 Challenges</div><div class="cc-iss">TryHackMe · Signed by CEO & CTO</div><div class="cc-date">Jan 20, 2026</div><div class="cc-id">ID: THM-SJLWOTYNZP</div><a href="cert_advent_cyber.pdf" download class="cc-dl">⬇ Download</a></div>
-      <div class="cc emp rv" style="transition-delay:.2s"><div class="cc-icon">🦊</div><div class="cc-name">Cyber Security Internship — VIP Performer</div><div class="cc-iss">ShadowFox · ISO 9001 / MSME Certified</div><div class="cc-date">Feb 2026</div><div class="cc-id">C.ID: SF02VIP140</div><a href="cert_shadowfox.pdf" download class="cc-dl">⬇ Download</a></div>
-      <div class="cc pro rv" style="transition-delay:.25s"><div class="cc-icon">🔐</div><div class="cc-name">CSCSO — Certified SME Cyber Security Officer</div><div class="cc-iss">EU Cyber Academy · Paul C Dwyer</div><div class="cc-date">Feb 19, 2026</div><div class="cc-id">ID: 69974f8b87b5c35d180e0868</div><a href="cert_cscso.pdf" download class="cc-dl">⬇ Download</a></div>
-      <div class="cc plt rv" style="transition-delay:.3s"><div class="cc-icon">🏁</div><div class="cc-name">CTF — 1st Place, GARUDA'26</div><div class="cc-iss">Nandha Engineering College · National Level</div><div class="cc-date">Feb 21–22, 2026</div><div class="cc-id">Certificate of Appreciation — Capture The Flag</div><a href="cert_nandha_ctf.pdf" download class="cc-dl">⬇ Download</a></div>
-    </div>
+
+    <div class="certs-gallery">
+
+      <!-- 1 — Ozone WAPT -->
+      <div class="cg emp rv" style="transition-delay:.05s">
+        <div class="cg-bar"></div>
+        <div class="cg-img-wrap">
+          <img src="certificates/cert_ozone.jpg" alt="WAPT Performance Letter — Ozone Cyber Security"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="cert-placeholder" style="display:none"><span class="cp-ico">🛡️</span><span class="cp-lbl">WAPT Certificate</span></div>
+          <div class="cg-overlay">
+            <a href="certificates/cert_ozone.jpg" target="_blank" class="cg-view">🔍 View Full</a>
+            <a href="cert_ozone.pdf" download class="cg-cert-dl">⬇ Download PDF</a>
+          </div>
+        </div>
+        <div class="cg-info">
+          <div class="cg-name">WAPT Internship — Performance Letter</div>
+          <div class="cg-foot">
+            <span class="cg-iss">Ozone Cyber Security</span>
+            <span class="cg-date">Jun–Jul 2025</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 — CRTOM -->
+      <div class="cg pro rv" style="transition-delay:.1s">
+        <div class="cg-bar"></div>
+        <div class="cg-img-wrap">
+          <img src="certificates/cert_crtom.jpg" alt="CRTOM — Red Team Leaders"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="cert-placeholder" style="display:none"><span class="cp-ico">🎯</span><span class="cp-lbl">CRTOM Certificate</span></div>
+          <div class="cg-overlay">
+            <a href="certificates/cert_crtom.jpg" target="_blank" class="cg-view">🔍 View Full</a>
+            <a href="cert_crtom.pdf" download class="cg-cert-dl">⬇ Download PDF</a>
+          </div>
+        </div>
+        <div class="cg-info">
+          <div class="cg-name">CRTOM — Certified Red Team Operations Management</div>
+          <div class="cg-foot">
+            <span class="cg-iss">Red Team Leaders</span>
+            <span class="cg-date">Dec 27, 2025</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 — Advent of Cyber -->
+      <div class="cg plt rv" style="transition-delay:.15s">
+        <div class="cg-bar"></div>
+        <div class="cg-img-wrap">
+          <img src="certificates/cert_advent_cyber.jpg" alt="Advent of Cyber 2025 — TryHackMe"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="cert-placeholder" style="display:none"><span class="cp-ico">⚡</span><span class="cp-lbl">Advent of Cyber</span></div>
+          <div class="cg-overlay">
+            <a href="certificates/cert_advent_cyber.jpg" target="_blank" class="cg-view">🔍 View Full</a>
+            <a href="cert_advent_cyber.pdf" download class="cg-cert-dl">⬇ Download PDF</a>
+          </div>
+        </div>
+        <div class="cg-info">
+          <div class="cg-name">Advent of Cyber 2025 — 24/24 Challenges</div>
+          <div class="cg-foot">
+            <span class="cg-iss">TryHackMe</span>
+            <span class="cg-date">Jan 20, 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 — ShadowFox -->
+      <div class="cg emp rv" style="transition-delay:.2s">
+        <div class="cg-bar"></div>
+        <div class="cg-img-wrap">
+          <img src="certificates/cert_shadowfox.jpg" alt="ShadowFox VIP Performer Certificate"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="cert-placeholder" style="display:none"><span class="cp-ico">🦊</span><span class="cp-lbl">ShadowFox Certificate</span></div>
+          <div class="cg-overlay">
+            <a href="certificates/cert_shadowfox.jpg" target="_blank" class="cg-view">🔍 View Full</a>
+            <a href="cert_shadowfox.pdf" download class="cg-cert-dl">⬇ Download PDF</a>
+          </div>
+        </div>
+        <div class="cg-info">
+          <div class="cg-name">Cyber Security Internship — VIP Performer</div>
+          <div class="cg-foot">
+            <span class="cg-iss">ShadowFox · ISO 9001 / MSME Certified</span>
+            <span class="cg-date">Feb 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 — CSCSO -->
+      <div class="cg pro rv" style="transition-delay:.25s">
+        <div class="cg-bar"></div>
+        <div class="cg-img-wrap">
+          <img src="certificates/cert_cscso.jpg" alt="CSCSO — EU Cyber Academy"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="cert-placeholder" style="display:none"><span class="cp-ico">🔐</span><span class="cp-lbl">CSCSO Certificate</span></div>
+          <div class="cg-overlay">
+            <a href="certificates/cert_cscso.jpg" target="_blank" class="cg-view">🔍 View Full</a>
+            <a href="cert_cscso.pdf" download class="cg-cert-dl">⬇ Download PDF</a>
+          </div>
+        </div>
+        <div class="cg-info">
+          <div class="cg-name">CSCSO — Certified SME Cyber Security Officer</div>
+          <div class="cg-foot">
+            <span class="cg-iss">EU Cyber Academy · Paul C Dwyer</span>
+            <span class="cg-date">Feb 19, 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 — CTF 1st Place -->
+      <div class="cg plt rv" style="transition-delay:.3s">
+        <div class="cg-bar"></div>
+        <div class="cg-img-wrap">
+          <img src="certificates/cert_ctf_garuda.jpg" alt="CTF 1st Place — GARUDA'26"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="cert-placeholder" style="display:none"><span class="cp-ico">🏁</span><span class="cp-lbl">CTF 1st Place</span></div>
+          <div class="cg-overlay">
+            <a href="certificates/cert_ctf_garuda.jpg" target="_blank" class="cg-view">🔍 View Full</a>
+            <a href="cert_nandha_ctf.pdf" download class="cg-cert-dl">⬇ Download PDF</a>
+          </div>
+        </div>
+        <div class="cg-info">
+          <div class="cg-name">CTF — 1st Place, GARUDA'26 · National Level</div>
+          <div class="cg-foot">
+            <span class="cg-iss">Nandha Engineering College</span>
+            <span class="cg-date">Feb 21–22, 2026</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /certs-gallery -->
+
+    <!-- File path note (remove before deploying) -->
+    <p style="margin-top:2rem;font-family:var(--mono);font-size:10.5px;color:var(--t4);background:var(--bg);border:1px solid var(--b1);border-radius:5px;padding:.8rem 1.1rem;line-height:1.8">
+      📁 <b style="color:var(--t2)">To show your cert images:</b> Create a folder called <span style="color:var(--cyan)">certificates/</span> next to this HTML file and add your images:<br>
+      <span style="color:var(--acc3)">cert_ozone.jpg · cert_crtom.jpg · cert_advent_cyber.jpg · cert_shadowfox.jpg · cert_cscso.jpg · cert_ctf_garuda.jpg</span><br>
+      (JPG, PNG or WEBP all work. Delete this notice once images are added.)
+    </p>
   </div>
 </section>
 
