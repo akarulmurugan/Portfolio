@@ -291,64 +291,73 @@ footer{background:var(--bg);border-top:1px solid var(--b1);padding:1.8rem;positi
 }
 
 /* ══════════════════════════════════════
-   CHATBOT
+   TERMINAL WIDGET
 ══════════════════════════════════════ */
-/* Floating launcher */
-#cb-btn{position:fixed;bottom:28px;left:28px;z-index:700;display:flex;align-items:center;gap:10px;
-  padding:13px 20px;background:var(--acc);border-radius:50px;border:none;cursor:pointer;
-  box-shadow:0 6px 28px rgba(37,99,235,.45);transition:all .25s;font-family:var(--mono);color:#fff;font-size:11px;letter-spacing:1.5px;text-transform:uppercase}
-#cb-btn:hover{background:var(--acc2);transform:translateY(-3px);box-shadow:0 10px 36px rgba(37,99,235,.55)}
-#cb-btn .cb-ico{width:20px;height:20px;flex-shrink:0}
-#cb-btn .cb-pulse{width:9px;height:9px;background:var(--green);border-radius:50%;flex-shrink:0;animation:pulse 1.8s ease infinite}
-/* Panel */
-#cb-panel{position:fixed;bottom:28px;left:28px;width:360px;height:520px;background:var(--bg2);border:1px solid var(--b2);
-  border-radius:16px;display:flex;flex-direction:column;z-index:701;
-  box-shadow:0 24px 64px rgba(0,0,0,.65);
-  transform:scale(.9) translateY(24px);opacity:0;pointer-events:none;
-  transition:transform .3s cubic-bezier(.22,1,.36,1),opacity .25s}
-#cb-panel.open{transform:none;opacity:1;pointer-events:all}
-/* Header */
-.cb-head{padding:14px 16px;border-bottom:1px solid var(--b1);display:flex;align-items:center;gap:12px;flex-shrink:0}
-.cb-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.cb-info{flex:1}
-.cb-name{font-size:13px;font-weight:600;color:var(--t1);line-height:1}
-.cb-status{font-family:var(--mono);font-size:9.5px;color:var(--green);letter-spacing:1px;display:flex;align-items:center;gap:5px;margin-top:3px}
-.cb-status::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%}
-.cb-close{background:none;border:none;color:var(--t4);cursor:pointer;font-size:18px;line-height:1;padding:4px;transition:color .2s;flex-shrink:0}
-.cb-close:hover{color:var(--t1)}
-/* Messages */
-.cb-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}
-.cb-msgs::-webkit-scrollbar{width:3px}
-.cb-msgs::-webkit-scrollbar-track{background:transparent}
-.cb-msgs::-webkit-scrollbar-thumb{background:var(--b2);border-radius:3px}
-.msg{display:flex;gap:8px;align-items:flex-end;animation:msgIn .25s ease}
-@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.msg.bot{justify-content:flex-start}
-.msg.usr{justify-content:flex-end}
-.msg-bubble{max-width:80%;padding:9px 12px;border-radius:12px;font-size:13px;line-height:1.55}
-.msg.bot .msg-bubble{background:var(--bg3);color:var(--t2);border-bottom-left-radius:3px;border:1px solid var(--b1)}
-.msg.usr .msg-bubble{background:var(--acc);color:#fff;border-bottom-right-radius:3px}
-.msg-bot-ico{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
-/* Typing dots */
-.typing-dots{display:flex;gap:4px;align-items:center;padding:4px 2px}
-.typing-dots span{width:6px;height:6px;background:var(--t4);border-radius:50%;animation:dot 1.4s ease infinite}
-.typing-dots span:nth-child(2){animation-delay:.22s}
-.typing-dots span:nth-child(3){animation-delay:.44s}
-@keyframes dot{0%,60%,100%{transform:none;opacity:.4}30%{transform:translateY(-5px);opacity:1}}
-/* Suggestions */
-.cb-sugg{padding:0 12px 8px;display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0}
-.sugg-btn{font-family:var(--mono);font-size:10px;padding:5px 10px;border:1px solid var(--b2);border-radius:20px;color:var(--t3);background:none;cursor:pointer;transition:all .2s;white-space:nowrap}
-.sugg-btn:hover{border-color:var(--acc);color:var(--acc3)}
-/* Input */
-.cb-input-row{padding:10px 12px;border-top:1px solid var(--b1);display:flex;gap:8px;align-items:center;flex-shrink:0}
-#cb-input{flex:1;background:var(--bg);border:1px solid var(--b1);border-radius:8px;padding:9px 12px;color:var(--t1);font-family:var(--sans);font-size:13px;outline:none;transition:border-color .2s;resize:none}
-#cb-input::placeholder{color:var(--t4)}
-#cb-input:focus{border-color:var(--acc)}
-#cb-send{width:36px;height:36px;background:var(--acc);border:none;border-radius:8px;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s,transform .15s}
-#cb-send:hover{background:var(--acc2);transform:scale(1.08)}
-#cb-send svg{width:15px;height:15px}
-@media(max-width:480px){#cb-panel{left:12px;right:12px;width:auto;bottom:90px}}
+#tm-btn{position:fixed;bottom:28px;left:28px;z-index:700;display:flex;align-items:center;gap:10px;
+  padding:13px 22px;background:linear-gradient(135deg,#0f2027,#1a3a2a);border:1px solid rgba(16,185,129,.4);
+  border-radius:50px;cursor:pointer;box-shadow:0 6px 28px rgba(16,185,129,.25);
+  transition:all .25s;font-family:var(--mono);color:var(--green);font-size:12px;letter-spacing:1.5px}
+#tm-btn:hover{background:linear-gradient(135deg,#0f2027,#1f4a35);transform:translateY(-3px);
+  box-shadow:0 10px 36px rgba(16,185,129,.4);border-color:var(--green)}
+#tm-btn .tm-ico{font-size:15px;line-height:1}
+#tm-btn .tm-pulse{width:8px;height:8px;background:var(--green);border-radius:50%;
+  animation:pulse 2s ease infinite;flex-shrink:0}
 
+/* Panel */
+#tm-panel{position:fixed;bottom:28px;left:28px;width:520px;height:420px;
+  background:#0d1117;border:1px solid rgba(16,185,129,.25);border-radius:12px;
+  display:flex;flex-direction:column;z-index:701;overflow:hidden;
+  box-shadow:0 28px 72px rgba(0,0,0,.75);
+  transform:scale(.92) translateY(20px);opacity:0;pointer-events:none;
+  transition:transform .3s cubic-bezier(.22,1,.36,1),opacity .25s}
+#tm-panel.open{transform:none;opacity:1;pointer-events:all}
+
+/* Title bar */
+.tm-bar{background:#161b22;padding:11px 16px;display:flex;align-items:center;gap:10px;
+  border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0;user-select:none}
+.tm-dots{display:flex;gap:6px}
+.tm-dot{width:12px;height:12px;border-radius:50%;cursor:pointer;transition:filter .2s}
+.tm-dot:hover{filter:brightness(1.3)}
+.tm-dr{background:#ff5f56}.tm-dy{background:#ffbd2e}.tm-dg{background:#27c93f}
+.tm-title{font-family:var(--mono);font-size:11.5px;color:#8b949e;
+  margin:0 auto;letter-spacing:.5px}
+.tm-close-x{font-family:var(--mono);font-size:14px;color:#555;
+  cursor:pointer;transition:color .2s;line-height:1}
+.tm-close-x:hover{color:#ff5f56}
+
+/* Output area */
+.tm-out{flex:1;overflow-y:auto;padding:14px 16px;font-family:var(--mono);
+  font-size:12.5px;line-height:1.75;color:#c9d1d9}
+.tm-out::-webkit-scrollbar{width:3px}
+.tm-out::-webkit-scrollbar-thumb{background:rgba(16,185,129,.25);border-radius:3px}
+
+/* Output line types */
+.tl-prompt{color:#10b981;user-select:none}
+.tl-cmd{color:#e6edf3}
+.tl-out{color:#8b949e}
+.tl-g{color:#3fb950}
+.tl-c{color:#39d0d8}
+.tl-y{color:#e3b341}
+.tl-r{color:#f85149}
+.tl-w{color:#c9d1d9}
+.tl-b{color:#79c0ff}
+.tl-blank{height:.4rem;display:block}
+
+/* Input row */
+.tm-input-row{display:flex;align-items:center;gap:0;padding:10px 16px;
+  border-top:1px solid rgba(255,255,255,.06);background:#0d1117;flex-shrink:0}
+.tm-prompt-label{font-family:var(--mono);font-size:12.5px;color:#10b981;
+  white-space:nowrap;user-select:none}
+#tm-input{flex:1;background:transparent;border:none;outline:none;color:#e6edf3;
+  font-family:var(--mono);font-size:12.5px;caret-color:#10b981;padding:0 6px}
+#tm-input::placeholder{color:#333}
+
+/* Help table inside terminal */
+.tl-table{display:grid;grid-template-columns:max-content 1fr;gap:0 1.5rem;padding:0}
+.tl-td-cmd{color:#39d0d8}
+.tl-td-desc{color:#8b949e}
+
+@media(max-width:560px){#tm-panel{left:12px;right:12px;width:auto;bottom:85px;height:360px}}
 </style>
 </head>
 <body>
@@ -726,6 +735,13 @@ footer{background:var(--bg);border-top:1px solid var(--b1);padding:1.8rem;positi
       </div>
 
     </div><!-- /certs-gallery -->
+
+    <!-- File path note (remove before deploying) -->
+    <p style="margin-top:2rem;font-family:var(--mono);font-size:10.5px;color:var(--t4);background:var(--bg);border:1px solid var(--b1);border-radius:5px;padding:.8rem 1.1rem;line-height:1.8">
+      📁 <b style="color:var(--t2)">To show your cert images:</b> Create a folder called <span style="color:var(--cyan)">certificates/</span> next to this HTML file and add your images:<br>
+      <span style="color:var(--acc3)">cert_ozone.jpg · cert_crtom.jpg · cert_advent_cyber.jpg · cert_shadowfox.jpg · cert_cscso.jpg · cert_ctf_garuda.jpg · cert_forage_tata.jpg</span><br>
+      (JPG, PNG or WEBP all work. Delete this notice once images are added.)
+    </p>
   </div>
 </section>
 
@@ -958,319 +974,461 @@ document.querySelectorAll('[data-count]').forEach(el => {
 
 
 /* ══════════════════════════════════════
-   CHATBOT — Zero API, fully offline
+   TERMINAL ENGINE
 ══════════════════════════════════════ */
+const TM_BANNER = [
+  {t:'g', v:'  ╔══════════════════════════════════════╗'},
+  {t:'g', v:'  ║   ARUL MURUGAN S — CYBER SECURITY    ║'},
+  {t:'g', v:'  ║   Penetration Tester | Red Team Op   ║'},
+  {t:'g', v:'  ╚══════════════════════════════════════╝'},
+  {t:'_'},
+  {t:'c', v:"  Type 'help' to see available commands."},
+  {t:'_'},
+];
 
-/* ── Rule engine ── */
-const CB_RULES = [
-  {
-    tags: ['hi','hello','hey','howdy','hola','sup',"what's up",'greet','good morning','good afternoon','good evening','namaste','vanakkam'],
-    answers: [
-      "Hey there! 👋 I'm Arul's assistant. Ask me about his skills, internships, projects, certifications, or whether he's available to hire!",
-      "Hi! 👋 Great to have you here. I can tell you all about Arul's cyber security background. What would you like to know?",
-      "Hello! 👋 I'm here to help you learn about Arul Murugan S. Ask me anything — skills, experience, projects, or how to reach him!"
-    ]
-  },
-  {
-    tags: ['who','about arul','tell me about','introduce','background','overview','summary','profile','himself'],
-    answers: [
-      "Arul Murugan S is a final-year B.E. Cyber Security student from Tamil Nadu with 3 internships, 7 verified credentials, and a Top 3% TryHackMe global rank. He specialises in penetration testing, red teaming, and WAPT — and his pentest reports have a zero re-submission record. 🛡️",
-      "Arul is a Penetration Tester, Red Team Operator, and WAPT Specialist based in Kallakurichi, Tamil Nadu. He has hands-on internship experience at Ozone Cyber Security, ShadowFox, and Corizo, plus 2 years of enterprise IT infrastructure before pivoting to cyber security in 2024."
-    ]
-  },
-  {
-    tags: ['skill','technical','expertise','proficien','good at','specialise','specializ','what can','capable','competenc'],
-    answers: [
-      "Arul's core offensive skills: WAPT, Network Pen-Testing, Red Team Ops, SQLi, XSS, IDOR, Auth Bypass, Privilege Escalation, Post-Exploitation, OSINT, and Wireless Security. He maps every finding to MITRE ATT&CK and scores it with CVSS v3.",
-      "He's skilled across the full offensive stack and knows frameworks like OWASP Top 10, MITRE ATT&CK, NIST CSF, and CVSS v3. On the defensive side: Vulnerability Assessment & Management, SOC Operations, Log Analysis, and IAM. He also codes in Python and Bash for security automation."
-    ]
-  },
-  {
-    tags: ['tool','burp','metasploit','nmap','nessus','wireshark','kali','gobuster','hydra','scapy','openvas','nikto','zap','software','use'],
-    answers: [
-      "His primary toolkit: Burp Suite, Metasploit, Nmap, Nessus, OpenVAS, Wireshark, Scapy, OWASP ZAP, Nikto, Gobuster, and Hydra — all on Kali Linux. He uses Python and Bash to build custom automation scripts on top of these.",
-      "Burp Suite and Metasploit are his go-to offensive tools. For recon and scanning: Nmap, Nessus, OpenVAS. For traffic analysis: Wireshark and Scapy. For web: OWASP ZAP and Nikto. Everything runs on Kali Linux with Python/Bash scripting layered on top."
-    ]
-  },
-  {
-    tags: ['pen test','penetration','pentest','ethical hack','offensive','red team','wapt','web application','exploit','vulnerability','attack','vuln'],
-    answers: [
-      "Arul runs the full pentest lifecycle: scoping → recon → exploitation → reporting. At Ozone Cyber Security he found SQLi, XSS, IDOR, and auth bypass on live production targets, with CVSS v3 scores, proof-of-concepts, and validated remediation for every single finding. Zero re-submissions. 🎯",
-      "His offensive specialties are WAPT (Web Application Pen Testing), network pen-testing, and red team operations. He maps all findings to MITRE ATT&CK technique IDs — so reports are useful for both technical teams and senior management, not just raw tool output."
-    ]
-  },
-  {
-    tags: ['experience','work','job','intern','internship','company','ozone','shadowfox','corizo','employ','career','history','past'],
-    answers: [
-      "Arul has 3 cyber security internships: ① ShadowFox (Feb 2026, VIP Performer) ② Ozone Cyber Security — WAPT (Jun–Jul 2025, signed reference letter) ③ Corizo / IIT Bombay Mood Indigo (Mar–Apr 2025, 160-hour programme). Before that, 2 years as a UPS Service Engineer in enterprise IT.",
-      "His most notable internship was at Ozone Cyber Security (Tiruchirapalli) as a WAPT Intern — he was formally commended in writing by their Cyber Security Specialist for excellent performance (Ref: OZ/DOC/210720255). He was also named VIP Performer at ShadowFox. 🏆"
-    ]
-  },
-  {
-    tags: ['ozone'],
-    answers: [
-      "At Ozone Cyber Security (Jun–Jul 2025, Tiruchirapalli), Arul worked as a WAPT Intern. He discovered SQLi, XSS, IDOR, and authentication bypass on live production systems — every finding had a CVSS v3 score, a proof-of-concept, and validated remediation. Not one report was sent back for revision. He received a signed performance letter from Cyber Security Specialist VISWESH S S (Ref: OZ/DOC/210720255). ✅"
-    ]
-  },
-  {
-    tags: ['shadowfox','shadow fox'],
-    answers: [
-      "At ShadowFox (Feb 2026, Remote), Arul was recognised as a VIP Performer (C.ID: SF02VIP140). He identified critical attack paths via network reconnaissance and web exploitation across simulated enterprise environments — completed all modules ahead of schedule. ShadowFox is ISO 9001 / MSME certified."
-    ]
-  },
-  {
-    tags: ['corizo','iit','mood indigo'],
-    answers: [
-      "At Corizo (Mar–Apr 2025, Remote) — part of IIT Bombay's Mood Indigo — Arul completed a 160-hour intensive programme covering threat intelligence, SOC operations, and vulnerability management across 6 simulated enterprise scenarios. Wipro Dice ID: CRZ94377."
-    ]
-  },
-  {
-    tags: ['project','build','built','made','create','ids','ips','widps','wireless','iot','sensor','arduino','esp8266'],
-    answers: [
-      "Arul has 2 security projects: ① Dual-Layer Wireless IDS/IPS — detects and blocks 5 real-world 802.11 attack vectors in under 200ms using Python and Scapy (zero false negatives, 70% faster response). ② IoT Infrastructure Monitor — real-time CO₂, PM2.5, VOC, temp/humidity monitoring via ESP8266 and Arduino with cloud sync and anomaly detection. 🔧",
-      "His standout project is the Wireless IDS/IPS — it runs two detection layers (signature-based + anomaly-based) simultaneously and catches five different live attack vectors under 200 milliseconds. Validated in a real lab. The IoT Monitor project is a proof-of-concept for OT/IoT security monitoring."
-    ]
-  },
-  {
-    tags: ['cert','certif','credential','qualification','crtom','cscso','forage','tata','iam','tryhackme','thm','advent','garuda','ctf','eu cyber','red team leader','vip'],
-    answers: [
-      "Arul holds 7 verified credentials: WAPT Letter (Ozone) · CRTOM (Red Team Leaders) · Advent of Cyber 24/24 (TryHackMe) · VIP Performer (ShadowFox) · CSCSO (EU Cyber Academy) · Cybersecurity Analyst Job Simulation (Tata / Forage) · CTF 1st Place GARUDA'26. All downloadable with verifiable IDs.",
-      "His top certifications are CRTOM (Red Team Leaders, Dec 2025) and CSCSO (EU Cyber Academy, Feb 2026) — both verifiable online. He also won 1st place in a national-level CTF at GARUDA'26 and completed all 24 Advent of Cyber 2025 challenges on TryHackMe (ID: THM-SJLWOTYNZP). 🏆"
-    ]
-  },
-  {
-    tags: ['tryhackme','thm','top 3','rank','platform','advent','hackthebox','ctf capture'],
-    answers: [
-      "On TryHackMe, Arul holds a Top 3% Global ranking — placing him among the most active security practitioners worldwide. He completed every single one of the 24 Advent of Cyber 2025 challenges (ID: THM-SJLWOTYNZP, signed by TryHackMe's CEO & CTO). 🎯",
-      "Top 3% globally on TryHackMe — that's across hundreds of thousands of users. His active rooms cover privilege escalation, Active Directory attacks, cryptography, network pen-testing, and malware analysis. He also got 24/24 in Advent of Cyber 2025."
-    ]
-  },
-  {
-    tags: ['iam','identity access','access management','forage tata','tata forage','job simulation'],
-    answers: [
-      "Arul completed Tata Group's Cybersecurity Analyst Job Simulation via Forage (Dec 28, 2025), covering IAM fundamentals, IAM strategy assessment, custom IAM solution design, and platform integration. Enrolment Code: KXF8cM7328qMffvr3."
-    ]
-  },
-  {
-    tags: ['ctf','garuda','capture the flag','competition','contest','winner','1st place','first place'],
-    answers: [
-      "Arul won 1st Place in the GARUDA'26 CTF — a national-level Capture The Flag competition held at Nandha Engineering College (Feb 21–22, 2026). He received a Certificate of Appreciation for the win. 🏁"
-    ]
-  },
-  {
-    tags: ['education','degree','college','university','study','student','mahendra','b.e','bachelor'],
-    answers: [
-      "Arul is currently pursuing a B.E. in Cyber Security at Mahendra Engineering College (2024–Present). Before that, he worked 2 years in enterprise IT infrastructure — which gives him a practical understanding of real systems that most freshers simply don't have."
-    ]
-  },
-  {
-    tags: ['location','where','india','tamil','kallakurichi','based','city','country'],
-    answers: [
-      "Arul is based in Kallakurichi, Tamil Nadu, India. He has worked remotely and on-site across multiple internships, so he's comfortable with both setups. 📍"
-    ]
-  },
-  {
-    tags: ['contact','email','phone','reach','message','linkedin','github','social','connect','touch','write'],
-    answers: [
-      "You can reach Arul directly at: ✉️ s.arulmurugan.am@gmail.com · 📞 +91-8610106797 · 🔗 linkedin.com/in/arul-murugan-s-89329232b · 💻 github.com/akarulmurugan. He responds within 24 hours.",
-      "Best ways to reach him: Email → s.arulmurugan.am@gmail.com | Phone → +91-8610106797 | LinkedIn → linkedin.com/in/arul-murugan-s-89329232b. He's very responsive — usually replies within a day."
-    ]
-  },
-  {
-    tags: ['hire','available','open','opportunity','recruit','position','role','looking for','job offer','freelance','full-time','part-time','internship offer'],
-    answers: [
-      "Yes! Arul is actively open to opportunities 🟢 — full-time roles, internships, and freelance penetration testing engagements. Best way to reach him: s.arulmurugan.am@gmail.com or +91-8610106797. He responds within 24 hours.",
-      "Absolutely — Arul is open to work! He's looking for penetration tester, red team, or cyber security analyst roles. He's also open to freelance WAPT engagements. Drop him a message at s.arulmurugan.am@gmail.com 📩"
-    ]
-  },
-  {
-    tags: ['salary','pay','expect','compensation','package','ctc','lpa'],
-    answers: [
-      "I don't have salary details on hand — best to discuss that directly with Arul. Reach him at s.arulmurugan.am@gmail.com and he'll get back to you within 24 hours. 😊"
-    ]
-  },
-  {
-    tags: ['resume','cv','download','pdf'],
-    answers: [
-      "You can download Arul's resume using the 'Resume' button in the top navigation bar, or the 'Download Resume PDF' button in the Resume section. It's a single-page document with all internships, certifications, and verifiable credential IDs. 📄"
-    ]
-  },
-  {
-    tags: ['python','bash','script','code','program','language'],
-    answers: [
-      "Arul codes in Python (intermediate level) and Bash for security automation — building custom scripts, scanners, and tools. He also works with Arduino and ESP8266 for IoT/hardware security projects. He's not a software developer, but he writes real, working security tooling."
-    ]
-  },
-  {
-    tags: ['linux','windows','server','infrastructure','hardware','system','admin','cloud'],
-    answers: [
-      "Before pivoting to cyber security, Arul spent 2 years as a UPS Service Engineer in enterprise IT. He's comfortable with Linux administration, Windows Server, system hardening, enterprise hardware, and cloud fundamentals — practical knowledge that helps him understand attacker targets from the inside."
-    ]
-  },
-  {
-    tags: ['mitre','owasp','nist','cvss','framework','standard','methodology'],
-    answers: [
-      "Arul works within OWASP Top 10, MITRE ATT&CK, NIST CSF, and CVSS v3. Every pentest finding he reports includes the ATT&CK technique ID and a CVSS v3 score — making his reports useful for both the technical team and management, not just raw scanner output."
-    ]
-  },
-  {
-    tags: ['strength','strong','best','top','stand out','different','unique','advantage','edge'],
-    answers: [
-      "Arul's biggest edge is the combination of enterprise IT infrastructure experience + formal cyber security training. He knows how real systems are built, which makes him better at finding how they break. His reports also go the extra mile — MITRE ATT&CK mapping, CVSS v3 scoring, and validated remediation. Zero re-submissions at Ozone speaks for itself. 💪",
-      "Three things set him apart: ① Zero-resubmission pentest reports (Ozone Cyber Security) ② Dual background — 2 years enterprise IT then B.E. Cyber Security ③ Real deliverables — an IDS/IPS that actually detects 5 attack types in under 200ms, not just a 'student project'. 🎯"
-    ]
-  },
-  {
-    tags: ['thank','thanks','great','awesome','cool','nice','helpful','good','perfect','excellent','wow','impressive'],
-    answers: [
-      "Happy to help! Feel free to ask anything else about Arul, or reach out to him directly at s.arulmurugan.am@gmail.com 😊",
-      "Glad that was useful! If you have more questions about Arul's background, just ask. Or connect with him directly on LinkedIn! 🙌"
-    ]
-  },
-  {
-    tags: ['bye','goodbye','see you','cya','later','take care','good night','goodnight'],
-    answers: [
-      "Take care! 👋 If you'd like to connect with Arul, reach him at s.arulmurugan.am@gmail.com anytime.",
-      "Goodbye! 👋 Don't hesitate to come back if you have more questions. Arul would love to hear from you!"
-    ]
-  },
-  {
-    tags: ['help','what can you','what do you know','what can i ask','guide','menu'],
-    answers: [
-      "I can answer questions about:\n• 🛡️ Skills & tools\n• 💼 Internship experience\n• 📁 Projects built\n• 🎓 Certifications & credentials\n• 📍 Location & education\n• 📞 How to contact Arul\n• ✅ Whether he's available to hire\n\nJust ask away!"
-    ]
+const TM_CMDS = {
+
+  help: () => [
+    {t:'y', v:'  AVAILABLE COMMANDS'},
+    {t:'_'},
+    {t:'th', v:[['whoami',     'Display profile summary'],
+                ['ls',         'List available files'],
+                ['cat [file]', 'Read a file (try: profile.txt, skills.txt, experience.txt,'],
+                ['',           'projects.txt, certifications.txt, contact.txt'],
+                ['nmap',       'Port scan (discover skills)'],
+                ['ping arul',  'Check if Arul is reachable'],
+                ['sudo hire',  'Request permission to hire Arul'],
+                ['exploit',    'Run a special payload'],
+                ['curl',       'Fetch JSON profile data'],
+                ['uname -a',   'Show system info'],
+                ['date',       'Current date & time'],
+                ['history',    'Show command history'],
+                ['clear',      'Clear the terminal'],
+                ['exit',       'Close terminal']]},
+    {t:'_'},
+    {t:'o', v:"  Tip: Use ↑ ↓ to navigate history. Tab to autocomplete."},
+  ],
+
+  whoami: () => [
+    {t:'_'},
+    {t:'g', v:'  arul-murugan.s'},
+    {t:'_'},
+    {t:'w', v:'  Role     : Penetration Tester · Red Team Operator · WAPT Specialist'},
+    {t:'w', v:'  Location : Kallakurichi, Tamil Nadu, India'},
+    {t:'w', v:'  Edu      : B.E. Cyber Security — Mahendra Engineering College (2024–)'},
+    {t:'w', v:'  THM      : Top 3% Global | 24/24 Advent of Cyber 2025'},
+    {t:'g', v:'  Status   : Open to Opportunities 🟢'},
+    {t:'_'},
+  ],
+
+  ls: () => [
+    {t:'_'},
+    {t:'c', v:'  drwxr-xr-x   profile.txt          certifications.txt'},
+    {t:'c', v:'  drwxr-xr-x   skills.txt           projects.txt'},
+    {t:'c', v:'  drwxr-xr-x   experience.txt       contact.txt'},
+    {t:'g', v:'  -rw-r--r--   resume.pdf           README.md'},
+    {t:'_'},
+  ],
+
+  'ls -la': () => TM_CMDS['ls'](),
+  'ls -a':  () => TM_CMDS['ls'](),
+  dir:      () => TM_CMDS['ls'](),
+
+  nmap: () => [
+    {t:'_'},
+    {t:'o', v:'  Starting Nmap 7.94 ( https://nmap.org )'},
+    {t:'o', v:'  Scanning arul-murugan.s (0.0.0.0) ...'},
+    {t:'_'},
+    {t:'g', v:'  PORT      STATE  SERVICE        VERSION'},
+    {t:'g', v:'  ──────────────────────────────────────────────────────'},
+    {t:'w', v:'  22/tcp    open   penetration    Burp Suite · Metasploit · Nmap'},
+    {t:'w', v:'  80/tcp    open   web-appsec     WAPT · SQLi · XSS · IDOR · OWASP Top 10'},
+    {t:'w', v:'  443/tcp   open   red-team       MITRE ATT&CK · CVSS v3 · NIST CSF'},
+    {t:'w', v:'  3389/tcp  open   net-security   Nessus · OpenVAS · Wireshark · Scapy'},
+    {t:'w', v:'  8080/tcp  open   scripting      Python · Bash · Security Automation'},
+    {t:'w', v:'  9000/tcp  open   iam-security   Identity & Access Management · IAM'},
+    {t:'w', v:'  9001/tcp  open   ot-iot-sec     Arduino · ESP8266 · IoT Security'},
+    {t:'_'},
+    {t:'g', v:'  Nmap done: 1 IP address (1 host up) — all ports OPEN'},
+    {t:'y', v:'  [!] No vulnerabilities found. This host is hardened.'},
+    {t:'_'},
+  ],
+
+  'nmap -sV': () => TM_CMDS['nmap'](),
+  'nmap -sV localhost': () => TM_CMDS['nmap'](),
+  'nmap localhost':     () => TM_CMDS['nmap'](),
+  'nmap -p- localhost': () => TM_CMDS['nmap'](),
+
+  'ping arul': () => [
+    {t:'_'},
+    {t:'o', v:'  PING arul-murugan.s (0.0.0.0): 56 data bytes'},
+    {t:'g', v:'  64 bytes from arul: icmp_seq=0 ttl=64 time=0.3 ms  [Responsive]'},
+    {t:'g', v:'  64 bytes from arul: icmp_seq=1 ttl=64 time=0.2 ms  [Available]'},
+    {t:'g', v:'  64 bytes from arul: icmp_seq=2 ttl=64 time=0.1 ms  [Open to Hire]'},
+    {t:'_'},
+    {t:'g', v:'  --- arul-murugan.s ping statistics ---'},
+    {t:'w', v:'  3 packets transmitted, 3 received, 0% packet loss'},
+    {t:'g', v:'  ✓ Host is REACHABLE at s.arulmurugan.am@gmail.com'},
+    {t:'_'},
+  ],
+
+  ping: () => TM_CMDS['ping arul'](),
+
+  'sudo hire': () => [
+    {t:'_'},
+    {t:'o', v:'  [sudo] password for recruiter: ••••••••'},
+    {t:'o', v:'  Authenticating...'},
+    {t:'_'},
+    {t:'g', v:'  ✔ Verified: Ozone WAPT Performance Letter (Ref: OZ/DOC/210720255)'},
+    {t:'g', v:'  ✔ Verified: CRTOM — Red Team Leaders (Dec 2025)'},
+    {t:'g', v:'  ✔ Verified: CSCSO — EU Cyber Academy (Feb 2026)'},
+    {t:'g', v:'  ✔ Verified: TryHackMe Top 3% Global · 24/24 Advent of Cyber'},
+    {t:'g', v:'  ✔ Verified: CTF 1st Place — GARUDA\'26 (National Level)'},
+    {t:'g', v:'  ✔ Verified: VIP Performer — ShadowFox (Feb 2026)'},
+    {t:'_'},
+    {t:'g', v:'  ╔═══════════════════════════════════════╗'},
+    {t:'g', v:'  ║   PERMISSION GRANTED — HIRE ARUL 🟢  ║'},
+    {t:'g', v:'  ╚═══════════════════════════════════════╝'},
+    {t:'_'},
+    {t:'c', v:'  → Email    : s.arulmurugan.am@gmail.com'},
+    {t:'c', v:'  → Phone    : +91-8610106797'},
+    {t:'c', v:'  → LinkedIn : linkedin.com/in/arul-murugan-s-89329232b'},
+    {t:'c', v:'  → GitHub   : github.com/akarulmurugan'},
+    {t:'_'},
+    {t:'y', v:'  Response time: < 24 hours guaranteed.'},
+    {t:'_'},
+  ],
+
+  'sudo hire arul': () => TM_CMDS['sudo hire'](),
+  'sudo ./hire_me': () => TM_CMDS['sudo hire'](),
+
+  exploit: () => [
+    {t:'_'},
+    {t:'o', v:'  msf6 exploit(multi/hire/arul_murugan) > run'},
+    {t:'_'},
+    {t:'y', v:'  [*] Loading exploit module: resume_v2026...'},
+    {t:'y', v:'  [*] Targeting: talent@yourcompany.com'},
+    {t:'y', v:'  [*] Payload: Arul_Murugan_Resume.pdf (UNDETECTABLE)'},
+    {t:'_'},
+    {t:'g', v:'  [+] Exploit complete!'},
+    {t:'g', v:'  [+] Session 1 opened (portfolio → talent_pipeline)'},
+    {t:'g', v:'  [+] Gained access to: recruiter\'s shortlist'},
+    {t:'_'},
+    {t:'c', v:'  meterpreter > getuid'},
+    {t:'w', v:'  Server username: TOP_CANDIDATE\\arul-murugan.s'},
+    {t:'_'},
+    {t:'c', v:'  → Email: s.arulmurugan.am@gmail.com'},
+    {t:'_'},
+  ],
+
+  'exploit --cve': () => TM_CMDS['exploit'](),
+  'exploit -m resume': () => TM_CMDS['exploit'](),
+
+  curl: () => [
+    {t:'_'},
+    {t:'o', v:'  $ curl https://api.arul-murugan.s/profile.json'},
+    {t:'_'},
+    {t:'b', v:'  {'},
+    {t:'b', v:'    "name"          : "Arul Murugan S",'},
+    {t:'b', v:'    "role"          : "Penetration Tester | Red Team Operator | WAPT",'},
+    {t:'b', v:'    "location"      : "Kallakurichi, Tamil Nadu, India",'},
+    {t:'b', v:'    "tryhackme"     : "Top 3% Global",'},
+    {t:'b', v:'    "internships"   : 3,'},
+    {t:'b', v:'    "credentials"   : 7,'},
+    {t:'b', v:'    "ctf_wins"      : 1,'},
+    {t:'b', v:'    "re_submissions": 0,'},
+    {t:'g', v:'    "status"        : "OPEN_TO_OPPORTUNITIES",'},
+    {t:'b', v:'    "email"         : "s.arulmurugan.am@gmail.com"'},
+    {t:'b', v:'  }'},
+    {t:'_'},
+  ],
+
+  'curl -X GET': () => TM_CMDS['curl'](),
+
+  'cat profile.txt': () => [
+    {t:'_'},
+    {t:'y', v:'  ── profile.txt ───────────────────────────────────────'},
+    {t:'_'},
+    {t:'w', v:'  ARUL MURUGAN S — Cyber Security Professional'},
+    {t:'_'},
+    {t:'o', v:'  Final-year B.E. Cyber Security student with 3 internships,'},
+    {t:'o', v:'  7 verified credentials, and a Top 3% TryHackMe global rank.'},
+    {t:'o', v:'  2 years enterprise IT before pivoting to cyber security in 2024.'},
+    {t:'_'},
+    {t:'o', v:'  Pentest reports: MITRE ATT&CK mapped · CVSS v3 scored · 0 re-submissions.'},
+    {t:'_'},
+  ],
+
+  'cat about.txt': () => TM_CMDS['cat profile.txt'](),
+  'cat readme.md':  () => TM_CMDS['cat profile.txt'](),
+  'cat README.md':  () => TM_CMDS['cat profile.txt'](),
+
+  'cat skills.txt': () => [
+    {t:'_'},
+    {t:'y', v:'  ── skills.txt ────────────────────────────────────────'},
+    {t:'_'},
+    {t:'c', v:'  [OFFENSIVE SECURITY]'},
+    {t:'o', v:'  WAPT · Network Pen-Testing · Red Team Ops · SQLi · XSS'},
+    {t:'o', v:'  IDOR · Auth Bypass · Privilege Escalation · OSINT · Wireless Security'},
+    {t:'_'},
+    {t:'c', v:'  [TOOLS]'},
+    {t:'o', v:'  Burp Suite · Metasploit · Nmap · Nessus · OpenVAS'},
+    {t:'o', v:'  Wireshark · Scapy · OWASP ZAP · Nikto · Gobuster · Hydra · Kali Linux'},
+    {t:'_'},
+    {t:'c', v:'  [FRAMEWORKS]'},
+    {t:'o', v:'  OWASP Top 10 · MITRE ATT&CK · NIST CSF · CVSS v3'},
+    {t:'_'},
+    {t:'c', v:'  [PROGRAMMING]'},
+    {t:'o', v:'  Python (Intermediate) · Bash Scripting · Security Automation · Arduino'},
+    {t:'_'},
+    {t:'c', v:'  [SECURITY OPS]'},
+    {t:'o', v:'  Vulnerability Assessment & Management · SOC · Log Analysis · IAM'},
+    {t:'_'},
+  ],
+
+  'cat experience.txt': () => [
+    {t:'_'},
+    {t:'y', v:'  ── experience.txt ────────────────────────────────────'},
+    {t:'_'},
+    {t:'g', v:'  [1] Cyber Security Intern — ShadowFox (Feb 2026, Remote)'},
+    {t:'o', v:'      VIP Performer · C.ID: SF02VIP140'},
+    {t:'o', v:'      Identified critical attack paths via network recon & web exploitation.'},
+    {t:'_'},
+    {t:'g', v:'  [2] WAPT Intern — Ozone Cyber Security (Jun–Jul 2025, Tiruchirapalli)'},
+    {t:'o', v:'      Signed reference letter · Ref: OZ/DOC/210720255'},
+    {t:'o', v:'      SQLi · XSS · IDOR · Auth Bypass on LIVE production targets.'},
+    {t:'g', v:'      Zero re-submissions. CVSS v3 + PoC + validated remediation.'},
+    {t:'_'},
+    {t:'g', v:'  [3] Cyber Security Intern — Corizo / IIT Bombay (Mar–Apr 2025, Remote)'},
+    {t:'o', v:'      160-hour programme · Wipro Dice ID: CRZ94377'},
+    {t:'o', v:'      Threat intelligence · SOC · Vulnerability management.'},
+    {t:'_'},
+    {t:'w', v:'  [4] UPS Service Engineer — TD Infra / Numax Energy (Jun 2022–Jun 2024)'},
+    {t:'o', v:'      Enterprise IT infrastructure background (pre-cyber).'},
+    {t:'_'},
+  ],
+
+  'cat projects.txt': () => [
+    {t:'_'},
+    {t:'y', v:'  ── projects.txt ──────────────────────────────────────'},
+    {t:'_'},
+    {t:'g', v:'  [PROJECT 01] Dual-Layer Wireless IDS/IPS'},
+    {t:'c', v:'  Stack : Python · Scapy · 802.11'},
+    {t:'o', v:'  Detects & blocks 5 real 802.11 attack vectors simultaneously.'},
+    {t:'g', v:'  < 200ms detection · 70% faster response · 0 false negatives.'},
+    {t:'_'},
+    {t:'g', v:'  [PROJECT 02] IoT Infrastructure Monitor'},
+    {t:'c', v:'  Stack : Python · ESP8266 · Arduino · MQ-135 · DHT11'},
+    {t:'o', v:'  Real-time CO₂, PM2.5, VOC, temp/humidity monitoring.'},
+    {t:'o', v:'  Cloud sync + anomaly detection — PoC for OT/IoT security.'},
+    {t:'_'},
+  ],
+
+  'cat certifications.txt': () => [
+    {t:'_'},
+    {t:'y', v:'  ── certifications.txt ────────────────────────────────'},
+    {t:'_'},
+    {t:'g', v:'  ✔ WAPT Performance Letter   — Ozone Cyber Security (Jun–Jul 2025)'},
+    {t:'g', v:'  ✔ CRTOM                     — Red Team Leaders (Dec 27, 2025)'},
+    {t:'g', v:'  ✔ Advent of Cyber 24/24     — TryHackMe (Jan 20, 2026) THM-SJLWOTYNZP'},
+    {t:'g', v:'  ✔ VIP Performer             — ShadowFox (Feb 2026) SF02VIP140'},
+    {t:'g', v:'  ✔ CSCSO                     — EU Cyber Academy (Feb 19, 2026)'},
+    {t:'g', v:'  ✔ Job Simulation            — Tata Group · Forage (Dec 28, 2025)'},
+    {t:'g', v:"  ✔ CTF 1st Place             — GARUDA'26, Nandha Engg College"},
+    {t:'_'},
+    {t:'c', v:'  Total: 7 verified credentials. All IDs available in the Credentials section.'},
+    {t:'_'},
+  ],
+
+  'cat certs.txt': () => TM_CMDS['cat certifications.txt'](),
+
+  'cat contact.txt': () => [
+    {t:'_'},
+    {t:'y', v:'  ── contact.txt ───────────────────────────────────────'},
+    {t:'_'},
+    {t:'c', v:'  Email    : s.arulmurugan.am@gmail.com'},
+    {t:'c', v:'  Phone    : +91-8610106797'},
+    {t:'c', v:'  LinkedIn : linkedin.com/in/arul-murugan-s-89329232b'},
+    {t:'c', v:'  GitHub   : github.com/akarulmurugan'},
+    {t:'c', v:'  TryHackMe: tryhackme.com/p/arulmurugan'},
+    {t:'_'},
+    {t:'g', v:'  Status: OPEN TO OPPORTUNITIES 🟢 — responds within 24 hours.'},
+    {t:'_'},
+  ],
+
+  'uname -a': () => [
+    {t:'_'},
+    {t:'w', v:'  Kali GNU/Linux 2026.1 arul-portfolio #1 SMP'},
+    {t:'w', v:'  x86_64 GNU/Linux | Kernel: 6.6.0-kali3-amd64'},
+    {t:'o', v:'  Owner: Arul Murugan S | Uptime: 24/7 | Load: MAXIMUM_POTENTIAL'},
+    {t:'_'},
+  ],
+
+  'uname': () => TM_CMDS['uname -a'](),
+
+  date: () => [
+    {t:'_'},
+    {t:'w', v:'  ' + new Date().toLocaleString('en-IN', {weekday:'long',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'})},
+    {t:'g', v:'  Timezone: IST (Indian Standard Time, UTC+5:30)'},
+    {t:'_'},
+  ],
+
+  'ssh arul@portfolio': () => [
+    {t:'_'},
+    {t:'o', v:'  Connecting to arul@portfolio (0.0.0.0)...'},
+    {t:'o', v:'  Authenticating...'},
+    {t:'g', v:'  Connection established. Welcome! 🛡️'},
+    {t:'_'},
+    {t:'g', v:'  ╔═══════════════════════════════════════════╗'},
+    {t:'g', v:'  ║  Welcome to Arul Murugan\'s Portfolio      ║'},
+    {t:'g', v:'  ║  Penetration Tester | Red Team Operator   ║'},
+    {t:'g', v:'  ║  Type \'help\' to explore.                  ║'},
+    {t:'g', v:'  ╚═══════════════════════════════════════════╝'},
+    {t:'_'},
+  ],
+
+  'ssh arul': () => TM_CMDS['ssh arul@portfolio'](),
+
+  history: () => ({ special: 'history' }),
+
+  clear: () => ({ special: 'clear' }),
+
+  exit: () => ({ special: 'exit' }),
+  quit: () => ({ special: 'exit' }),
+  ':q':  () => ({ special: 'exit' }),
+};
+
+/* ── Unknown command ── */
+function tmUnknown(cmd) {
+  const base = cmd.split(' ')[0];
+  return [
+    {t:'r', v:`  bash: ${base}: command not found`},
+    {t:'o', v:"  Type 'help' to see available commands."},
+    {t:'_'},
+  ];
+}
+
+/* ── Render lines ── */
+function tmRenderLines(lines, out) {
+  lines.forEach(l => {
+    const d = document.createElement('div');
+    if (l.t === '_') { d.className='tl-blank'; }
+    else if (l.t === 'th') {
+      d.className='tl-table';
+      l.v.forEach(row => {
+        const c1=document.createElement('span'); c1.className='tl-td-cmd'; c1.textContent='  '+row[0];
+        const c2=document.createElement('span'); c2.className='tl-td-desc'; c2.textContent=row[1];
+        d.appendChild(c1); d.appendChild(c2);
+      });
+    }
+    else {
+      const map={g:'tl-g',c:'tl-c',y:'tl-y',r:'tl-r',w:'tl-w',o:'tl-out',b:'tl-b'};
+      d.className=map[l.t]||'tl-out'; d.textContent=l.v||'';
+    }
+    out.appendChild(d);
+  });
+  out.scrollTop = out.scrollHeight;
+}
+
+/* ── Print prompt + command ── */
+function tmPrintCmd(cmd, out) {
+  const row = document.createElement('div');
+  row.innerHTML = `<span class="tl-prompt">arul@portfolio:~$&nbsp;</span><span class="tl-cmd">${cmd.replace(/</g,'&lt;')}</span>`;
+  out.appendChild(row);
+}
+
+/* ── State ── */
+let tmOpen = false;
+let tmStarted = false;
+let tmHist = [];
+let tmHistIdx = -1;
+const TM_KNOWN = Object.keys(TM_CMDS);
+
+function tmToggle() {
+  tmOpen = !tmOpen;
+  document.getElementById('tm-panel').classList.toggle('open', tmOpen);
+  if (tmOpen && !tmStarted) {
+    tmStarted = true;
+    const out = document.getElementById('tm-out');
+    tmRenderLines(TM_BANNER, out);
   }
-];
+  if (tmOpen) setTimeout(() => document.getElementById('tm-input').focus(), 320);
+}
 
-const CB_FALLBACK = [
-  "That's a great question! I'm best at answering about Arul's skills, experience, projects, certifications, or how to contact him. What would you like to know? 😊",
-  "I'm not sure about that one — try asking me about Arul's skills, internships, projects, or availability for hire!",
-  "Hmm, I don't have that info. But I can tell you all about Arul's cyber security background, certifications, or how to reach him. Ask away! 💡"
-];
+function tmKey(e) {
+  const inp = document.getElementById('tm-input');
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    const cmd = inp.value.trim();
+    if (!cmd) return;
+    inp.value = '';
+    tmHist.unshift(cmd);
+    tmHistIdx = -1;
+    tmRun(cmd);
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (tmHistIdx < tmHist.length - 1) { tmHistIdx++; inp.value = tmHist[tmHistIdx]; }
+  } else if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (tmHistIdx > 0) { tmHistIdx--; inp.value = tmHist[tmHistIdx]; }
+    else { tmHistIdx = -1; inp.value = ''; }
+  } else if (e.key === 'Tab') {
+    e.preventDefault();
+    const partial = inp.value.toLowerCase();
+    const match = TM_KNOWN.find(k => k.startsWith(partial) && k !== partial);
+    if (match) inp.value = match;
+  }
+}
 
-/* ── Match function ── */
-function cbMatch(input) {
-  const q = input.toLowerCase().replace(/[^a-z0-9\s']/g, ' ');
-  for (const rule of CB_RULES) {
-    if (rule.tags.some(t => q.includes(t))) {
-      const answers = rule.answers;
-      return answers[Math.floor(Math.random() * answers.length)];
+function tmRun(raw) {
+  const out = document.getElementById('tm-out');
+  const cmd = raw.trim().toLowerCase().replace(/\s+/g,' ');
+  tmPrintCmd(raw, out);
+  out.scrollTop = out.scrollHeight;
+
+  // Lookup
+  const fn = TM_CMDS[cmd];
+  if (!fn) { tmRenderLines(tmUnknown(raw), out); return; }
+  const result = fn();
+
+  if (result && result.special) {
+    if (result.special === 'clear') { out.innerHTML = ''; return; }
+    if (result.special === 'exit')  { tmToggle(); return; }
+    if (result.special === 'history') {
+      const hlines = tmHist.length
+        ? tmHist.slice().reverse().map((c,i) => ({t:'o', v:`  ${i+1}  ${c}`}))
+        : [{t:'o', v:'  No history yet.'}];
+      tmRenderLines([{t:'_'}, ...hlines, {t:'_'}], out);
+      return;
     }
   }
-  return CB_FALLBACK[Math.floor(Math.random() * CB_FALLBACK.length)];
-}
-
-/* ── UI state ── */
-let cbOpen = false;
-let cbBusy = false;
-let cbStarted = false;
-
-function cbToggle() {
-  cbOpen = !cbOpen;
-  document.getElementById('cb-panel').classList.toggle('open', cbOpen);
-  if (cbOpen && !cbStarted) {
-    cbStarted = true;
-    setTimeout(() => cbAppend('bot', "Hi! 👋 I'm Arul's assistant. Ask me about his skills, experience, projects, certifications, or whether he's available to hire!"), 320);
-  }
-  if (cbOpen) setTimeout(() => document.getElementById('cb-input').focus(), 360);
-}
-
-function cbSugg(btn) {
-  document.getElementById('cb-input').value = btn.textContent.trim();
-  document.getElementById('cb-sugg').style.display = 'none';
-  cbSend();
-}
-
-function cbAppend(role, text) {
-  const msgs = document.getElementById('cb-msgs');
-  const wrap = document.createElement('div');
-  wrap.className = 'msg ' + role;
-  if (role === 'bot') {
-    wrap.innerHTML = '<div class="msg-bot-ico">🛡️</div><div class="msg-bubble"></div>';
-    // Render line breaks from \n
-    const bubble = wrap.querySelector('.msg-bubble');
-    text.split('\n').forEach((line, i) => {
-      if (i > 0) bubble.appendChild(document.createElement('br'));
-      bubble.appendChild(document.createTextNode(line));
-    });
-  } else {
-    wrap.innerHTML = '<div class="msg-bubble"></div>';
-    wrap.querySelector('.msg-bubble').textContent = text;
-  }
-  msgs.appendChild(wrap);
-  msgs.scrollTop = msgs.scrollHeight;
-  return wrap;
-}
-
-function cbTyping() {
-  const msgs = document.getElementById('cb-msgs');
-  const wrap = document.createElement('div');
-  wrap.className = 'msg bot'; wrap.id = 'cb-typing';
-  wrap.innerHTML = '<div class="msg-bot-ico">🛡️</div><div class="msg-bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div>';
-  msgs.appendChild(wrap);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function cbSend() {
-  if (cbBusy) return;
-  const inp = document.getElementById('cb-input');
-  const text = inp.value.trim();
-  if (!text) return;
-  inp.value = '';
-  document.getElementById('cb-sugg').style.display = 'none';
-  cbAppend('usr', text);
-  cbBusy = true;
-  document.getElementById('cb-send').style.opacity = '.45';
-  cbTyping();
-  // Simulate thinking delay (600–1000ms)
-  const delay = 620 + Math.random() * 380;
-  setTimeout(() => {
-    const typing = document.getElementById('cb-typing');
-    if (typing) typing.remove();
-    cbAppend('bot', cbMatch(text));
-    cbBusy = false;
-    document.getElementById('cb-send').style.opacity = '1';
-  }, delay);
+  tmRenderLines(result, out);
 }
 
 </script>
 
-<!-- ══ CHATBOT ══ -->
-<button id="cb-btn" onclick="cbToggle()">
-  <svg class="cb-ico" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
-  </svg>
-  Ask about Arul
-  <span class="cb-pulse"></span>
+<!-- ══ TERMINAL WIDGET ══ -->
+<button id="tm-btn" onclick="tmToggle()">
+  <span class="tm-ico">&gt;_</span>
+  Open Terminal
+  <span class="tm-pulse"></span>
 </button>
 
-<div id="cb-panel">
-  <div class="cb-head">
-    <div class="cb-avatar">🛡️</div>
-    <div class="cb-info">
-      <div class="cb-name">Arul's AI Assistant</div>
-      <div class="cb-status">Online · Ask me anything</div>
+<div id="tm-panel">
+  <div class="tm-bar">
+    <div class="tm-dots">
+      <span class="tm-dot tm-dr" onclick="tmToggle()" title="Close"></span>
+      <span class="tm-dot tm-dy"></span>
+      <span class="tm-dot tm-dg"></span>
     </div>
-    <button class="cb-close" onclick="cbToggle()">✕</button>
+    <span class="tm-title">bash — arul@portfolio : ~</span>
+    <span class="tm-close-x" onclick="tmToggle()">✕</span>
   </div>
-  <div class="cb-msgs" id="cb-msgs"></div>
-  <div class="cb-sugg" id="cb-sugg">
-    <button class="sugg-btn" onclick="cbSugg(this)">Skills &amp; tools</button>
-    <button class="sugg-btn" onclick="cbSugg(this)">Experience</button>
-    <button class="sugg-btn" onclick="cbSugg(this)">Certifications</button>
-    <button class="sugg-btn" onclick="cbSugg(this)">Available for hire?</button>
-    <button class="sugg-btn" onclick="cbSugg(this)">Projects built</button>
-  </div>
-  <div class="cb-input-row">
-    <input id="cb-input" type="text" placeholder="Ask about skills, experience…" maxlength="300"
-           onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();cbSend()}">
-    <button id="cb-send" onclick="cbSend()">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-      </svg>
-    </button>
+  <div class="tm-out" id="tm-out"></div>
+  <div class="tm-input-row">
+    <span class="tm-prompt-label">arul@portfolio:~$&nbsp;</span>
+    <input id="tm-input" type="text" autocomplete="off" autocorrect="off"
+           spellcheck="false" placeholder="type help"
+           onkeydown="tmKey(event)">
   </div>
 </div>
-
-</body>
-</html>
