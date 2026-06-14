@@ -358,6 +358,46 @@ footer{background:var(--bg);border-top:1px solid var(--b1);padding:1.8rem;positi
 .tl-td-desc{color:#8b949e}
 
 @media(max-width:560px){#tm-panel{left:12px;right:12px;width:auto;bottom:85px;height:360px}}
+
+/* ══════════════════════════════════════
+   EDUCATION
+══════════════════════════════════════ */
+.edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+.edu-card{background:var(--bg2);border:1px solid var(--b1);border-radius:10px;
+  padding:1.8rem 2rem;display:flex;flex-direction:column;gap:.7rem;
+  position:relative;overflow:hidden;transition:border-color .28s,transform .28s,box-shadow .28s}
+.edu-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:3px 3px 0 0}
+.edu-card.ec-active::before{background:linear-gradient(90deg,var(--cyan),var(--acc))}
+.edu-card.ec-done::before{background:linear-gradient(90deg,var(--acc),var(--purple))}
+.edu-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.4)}
+.edu-card.ec-active:hover{border-color:rgba(6,182,212,.25)}
+.edu-card.ec-done:hover{border-color:rgba(37,99,235,.25)}
+.edu-status{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);
+  font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:4px 11px;
+  border-radius:20px;width:fit-content}
+.edu-status.es-active{background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.2);color:var(--cyan)}
+.edu-status.es-done{background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);color:var(--acc3)}
+.edu-sdot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.es-active .edu-sdot{background:var(--cyan);animation:pulse 1.8s ease infinite}
+.es-done .edu-sdot{background:var(--acc3)}
+.edu-deg{font-size:1.15rem;font-weight:700;color:var(--t1);line-height:1.2}
+.edu-field{font-size:14px;font-weight:500;color:var(--cyan);margin-top:1px}
+.edu-card.ec-done .edu-field{color:var(--acc3)}
+.edu-inst{font-size:13.5px;color:var(--t3)}
+.edu-chips{display:flex;gap:5px;flex-wrap:wrap}
+.edu-chip{font-family:var(--mono);font-size:10px;padding:3px 9px;border-radius:3px;
+  background:rgba(255,255,255,.03);border:1px solid var(--b2);color:var(--t3)}
+.edu-chip.hi{background:rgba(6,182,212,.07);border-color:rgba(6,182,212,.18);color:var(--cyan)}
+.edu-card.ec-done .edu-chip.hi{background:rgba(37,99,235,.07);border-color:rgba(37,99,235,.18);color:var(--acc3)}
+.edu-rule{height:1px;background:var(--b1)}
+.edu-label{font-family:var(--mono);font-size:9px;color:var(--t4);
+  letter-spacing:2px;text-transform:uppercase}
+.edu-tags{display:flex;flex-wrap:wrap;gap:5px}
+.edu-tag{font-family:var(--mono);font-size:10px;padding:3px 9px;border-radius:3px;
+  background:var(--bg3);border:1px solid var(--b1);color:var(--t4);
+  transition:border-color .2s,color .2s}
+.edu-card:hover .edu-tag{border-color:var(--b2);color:var(--t3)}
+@media(max-width:640px){.edu-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -371,6 +411,7 @@ footer{background:var(--bg);border-top:1px solid var(--b1);padding:1.8rem;positi
     <div class="logo"><div class="dot"></div> <b>arul-murugan</b><span>.s</span></div>
     <ul class="nav-links">
       <li><a href="#about">about</a></li>
+      <li><a href="#education">education</a></li>
       <li><a href="#skills">skills</a></li>
       <li><a href="#experience">experience</a></li>
       <li><a href="#projects">projects</a></li>
@@ -387,6 +428,7 @@ footer{background:var(--bg);border-top:1px solid var(--b1);padding:1.8rem;positi
 <div class="mm" id="mm">
   <button class="mm-x" onclick="toggleMenu()">✕</button>
   <a href="#about" onclick="toggleMenu()">About</a>
+  <a href="#education" onclick="toggleMenu()">Education</a>
   <a href="#skills" onclick="toggleMenu()">Skills</a>
   <a href="#experience" onclick="toggleMenu()">Experience</a>
   <a href="#projects" onclick="toggleMenu()">Projects</a>
@@ -477,6 +519,78 @@ footer{background:var(--bg);border-top:1px solid var(--b1);padding:1.8rem;positi
           <div class="pc-body">Completed a real-world job simulation covering IAM fundamentals, IAM strategy assessment, custom IAM solution design, and platform integration — issued Dec 28, 2025. Enrolment Code: KXF8cM7328qMffvr3.</div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- EDUCATION -->
+<section id="education" class="sp" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="sh rv">
+      <div class="sh-num">02 / Education</div>
+      <h2 class="sh-title">Academic <span class="g">Background</span></h2>
+      <div class="sh-line"></div>
+    </div>
+
+    <div class="edu-grid">
+
+      <!-- B.E. Card -->
+      <div class="edu-card ec-active rv">
+        <div class="edu-status es-active">
+          <span class="edu-sdot"></span>Currently Enrolled
+        </div>
+        <div>
+          <div class="edu-deg">Bachelor of Engineering</div>
+          <div class="edu-field">Cyber Security</div>
+          <div class="edu-inst">Mahendra Engineering College</div>
+        </div>
+        <div class="edu-chips">
+          <span class="edu-chip hi">2024 – Present</span>
+          <span class="edu-chip hi">Final Year</span>
+          <span class="edu-chip">Kallakurichi, TN</span>
+          <span class="edu-chip">Full-Time</span>
+        </div>
+        <div class="edu-rule"></div>
+        <div class="edu-label">Key Achievements</div>
+        <div class="edu-tags">
+          <span class="edu-tag">TryHackMe Top 3% Global</span>
+          <span class="edu-tag">24/24 Advent of Cyber 2025</span>
+          <span class="edu-tag">CTF 1st Place — GARUDA'26</span>
+          <span class="edu-tag">3 Industry Internships</span>
+          <span class="edu-tag">7 Verified Credentials</span>
+          <span class="edu-tag">VIP Performer — ShadowFox</span>
+        </div>
+      </div>
+
+      <!-- Diploma Card -->
+      <div class="edu-card ec-done rv" style="transition-delay:.15s">
+        <div class="edu-status es-done">
+          <span class="edu-sdot"></span>Completed
+        </div>
+        <div>
+          <div class="edu-deg">Diploma</div>
+          <div class="edu-field">Electronics &amp; Communication Engineering</div>
+          <div class="edu-inst">Sankarapuram Govt. Polytechnic College</div>
+        </div>
+        <div class="edu-chips">
+          <span class="edu-chip hi">Graduated 2022</span>
+          <span class="edu-chip hi">72.23%</span>
+          <span class="edu-chip">Kallakurichi, TN</span>
+          <span class="edu-chip">Govt. Institution</span>
+        </div>
+        <div class="edu-rule"></div>
+        <div class="edu-label">Foundation Skills</div>
+        <div class="edu-tags">
+          <span class="edu-tag">Electronics Fundamentals</span>
+          <span class="edu-tag">Communication Systems</span>
+          <span class="edu-tag">Microprocessors</span>
+          <span class="edu-tag">Circuit Design</span>
+          <span class="edu-tag">Embedded Systems</span>
+          <span class="edu-tag">IoT &amp; Hardware</span>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -987,7 +1101,7 @@ const TM_CMDS = {
     {t:'_'},
     {t:'th', v:[['whoami',     'Display profile summary'],
                 ['ls',         'List available files'],
-                ['cat [file]', 'Read a file (try: profile.txt, skills.txt, experience.txt,'],
+                ['cat [file]', 'Read a file — try: profile.txt, skills.txt, experience.txt,'],
                 ['',           'projects.txt, certifications.txt, contact.txt'],
                 ['nmap',       'Port scan (discover skills)'],
                 ['ping arul',  'Check if Arul is reachable'],
